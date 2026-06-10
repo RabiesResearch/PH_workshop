@@ -1,0 +1,385 @@
+barangay,municipality,province,case_status,date,case_status_fct,case_type,year,island
+Apitong,Boac,Marinduque,Confirmed,24/09/2023,Confirmed (Animal),Animal,2023,Marinduque
+Balogo,Boac,Marinduque,Confirmed,10/10/2023,Confirmed (Animal),Animal,2023,Marinduque
+Agumaymayan,Boac,Marinduque,Confirmed,06/10/2023,Confirmed (Animal),Animal,2023,Marinduque
+Laylay,Boac,Marinduque,Confirmed,23/10/2023,Confirmed (Animal),Animal,2023,Marinduque
+Bangbangalon,Boac,Marinduque,Probable,13/10/2023,Probable (Animal),Animal,2023,Marinduque
+Bangbangalon,Boac,Marinduque,Probable,16/10/2023,Probable (Animal),Animal,2023,Marinduque
+Bangbangalon,Boac,Marinduque,Confirmed,16/10/2023,Confirmed (Animal),Animal,2023,Marinduque
+Isok I,Boac,Marinduque,Confirmed,21/10/2023,Confirmed (Animal),Animal,2023,Marinduque
+Bocboc,Mogpog,Marinduque,Confirmed,22/10/2023,Confirmed (Animal),Animal,2023,Marinduque
+Pili,Boac,Marinduque,Confirmed,22/10/2023,Confirmed (Animal),Animal,2023,Marinduque
+Tabi,Boac,Marinduque,Confirmed,08/11/2023,Confirmed (Animal),Animal,2023,Marinduque
+Pili,Boac,Marinduque,Confirmed,08/11/2023,Confirmed (Animal),Animal,2023,Marinduque
+Maligaya,Boac,Marinduque,Confirmed,08/11/2023,Confirmed (Animal),Animal,2023,Marinduque
+Maligaya,Boac,Marinduque,Confirmed,07/11/2023,Confirmed (Animal),Animal,2023,Marinduque
+Balimbing,Boac,Marinduque,Confirmed,28/11/2023,Confirmed (Animal),Animal,2023,Marinduque
+Poras,Boac,Marinduque,Confirmed,24/11/2023,Confirmed (Animal),Animal,2023,Marinduque
+Lupac,Boac,Marinduque,Confirmed,26/11/2023,Confirmed (Animal),Animal,2023,Marinduque
+Maligaya,Boac,Marinduque,Confirmed,28/11/2023,Confirmed (Animal),Animal,2023,Marinduque
+Laon,Mogpog,Marinduque,Confirmed,28/11/2023,Confirmed (Animal),Animal,2023,Marinduque
+Poctoy,Boac,Marinduque,Confirmed,27/11/2023,Confirmed (Animal),Animal,2023,Marinduque
+Cawit,Boac,Marinduque,Confirmed,27/11/2023,Confirmed (Animal),Animal,2023,Marinduque
+Bunganay,Boac,Marinduque,Confirmed,28/11/2023,Confirmed (Animal),Animal,2023,Marinduque
+Tabigue,Boac,Marinduque,Confirmed,05/12/2023,Confirmed (Animal),Animal,2023,Marinduque
+Hinapulan,Boac,Marinduque,Confirmed,05/12/2023,Confirmed (Animal),Animal,2023,Marinduque
+Dampulan,Torrijos,Marinduque,Confirmed,05/01/2024,Confirmed (Animal),Animal,2024,Marinduque
+Malusak,Boac,Marinduque,Confirmed,09/01/2024,Confirmed (Animal),Animal,2024,Marinduque
+Masiga,Gasan,Marinduque,Confirmed,09/01/2024,Confirmed (Animal),Animal,2024,Marinduque
+Maybo,Boac,Marinduque,Probable,29/12/2023,Probable (Animal),Animal,2023,Marinduque
+Buangan,Torrijos,Marinduque,Confirmed,15/01/2024,Confirmed (Animal),Animal,2024,Marinduque
+Masiga,Gasan,Marinduque,Confirmed,18/01/2024,Confirmed (Animal),Animal,2024,Marinduque
+Santol,Boac,Marinduque,Probable,18/01/2024,Probable (Animal),Animal,2024,Marinduque
+Lupac,Boac,Marinduque,Confirmed,23/01/2024,Confirmed (Animal),Animal,2024,Marinduque
+Laylay,Boac,Marinduque,Confirmed,24/01/2024,Confirmed (Animal),Animal,2024,Marinduque
+Masiga,Gasan,Marinduque,Confirmed,25/01/2024,Confirmed (Animal),Animal,2024,Marinduque
+Poblacion,Torrijos,Marinduque,Confirmed,25/01/2024,Confirmed (Animal),Animal,2024,Marinduque
+Tampus,Boac,Marinduque,Confirmed,31/01/2024,Confirmed (Animal),Animal,2024,Marinduque
+San Isidro,Santa Cruz,Marinduque,Confirmed,31/01/2024,Confirmed (Animal),Animal,2024,Marinduque
+Barangay IV,Buenavista,Marinduque,Confirmed,31/01/2024,Confirmed (Animal),Animal,2024,Marinduque
+Tabi,Boac,Marinduque,Confirmed,01/02/2024,Confirmed (Animal),Animal,2024,Marinduque
+Daykitin,Buenavista,Marinduque,Confirmed,08/02/2024,Confirmed (Animal),Animal,2024,Marinduque
+Bangbangalon,Boac,Marinduque,Confirmed,20/02/2024,Confirmed (Animal),Animal,2024,Marinduque
+Barangay I,Buenavista,Marinduque,Confirmed,16/02/2024,Confirmed (Animal),Animal,2024,Marinduque
+Caigangan,Buenavista,Marinduque,Confirmed,19/02/2024,Confirmed (Animal),Animal,2024,Marinduque
+Masiga,Gasan,Marinduque,Confirmed,13/02/2024,Confirmed (Animal),Animal,2024,Marinduque
+Daykitin,Buenavista,Marinduque,Confirmed,14/02/2024,Confirmed (Animal),Animal,2024,Marinduque
+Bangbangalon,Boac,Marinduque,Confirmed,16/02/2024,Confirmed (Animal),Animal,2024,Marinduque
+Bamban,Boac,Marinduque,Confirmed,28/02/2024,Confirmed (Animal),Animal,2024,Marinduque
+Masiga,Gasan,Marinduque,Confirmed,26/02/2024,Confirmed (Animal),Animal,2024,Marinduque
+Buangan,Torrijos,Marinduque,Confirmed,28/02/2024,Confirmed (Animal),Animal,2024,Marinduque
+Barangay I,Buenavista,Marinduque,Confirmed,05/03/2024,Confirmed (Animal),Animal,2024,Marinduque
+Tugos,Boac,Marinduque,Confirmed,06/03/2024,Confirmed (Animal),Animal,2024,Marinduque
+Daykitin,Buenavista,Marinduque,Confirmed,06/03/2024,Confirmed (Animal),Animal,2024,Marinduque
+Barangay IV,Buenavista,Marinduque,Confirmed,13/03/2024,Confirmed (Animal),Animal,2024,Marinduque
+Tugos,Boac,Marinduque,Confirmed,12/03/2024,Confirmed (Animal),Animal,2024,Marinduque
+Barangay I,Buenavista,Marinduque,Confirmed,17/03/2024,Confirmed (Animal),Animal,2024,Marinduque
+Caigangan,Buenavista,Marinduque,Confirmed,20/03/2024,Confirmed (Animal),Animal,2024,Marinduque
+Barangay II,Buenavista,Marinduque,Confirmed,20/03/2024,Confirmed (Animal),Animal,2024,Marinduque
+Barangay I,Buenavista,Marinduque,Confirmed,25/03/2024,Confirmed (Animal),Animal,2024,Marinduque
+Barangay I,Buenavista,Marinduque,Confirmed,29/03/2024,Confirmed (Animal),Animal,2024,Marinduque
+Mendez,Mogpog,Marinduque,Confirmed,17/03/2024,Confirmed (Animal),Animal,2024,Marinduque
+Villa Mendez,Mogpog,Marinduque,Confirmed,20/03/2024,Confirmed (Animal),Animal,2024,Marinduque
+Villa Mendez,Mogpog,Marinduque,Confirmed,31/03/2024,Confirmed (Animal),Animal,2024,Marinduque
+Masiga,Gasan,Marinduque,Confirmed,29/03/2024,Confirmed (Animal),Animal,2024,Marinduque
+Cabugao,Gasan,Marinduque,Confirmed,02/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Barangay I,Buenavista,Marinduque,Confirmed,02/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Malibago,Torrijos,Marinduque,Confirmed,04/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Murallon,Boac,Marinduque,Confirmed,05/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Bangbangalon,Boac,Marinduque,Confirmed,07/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Caigangan,Buenavista,Marinduque,Confirmed,11/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Libjo,Santa Cruz,Marinduque,Confirmed,09/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Barangay I,Buenavista,Marinduque,Confirmed,06/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Bicas-Bicas,Buenavista,Marinduque,Confirmed,11/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Barangay II,Buenavista,Marinduque,Confirmed,11/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Yook,Buenavista,Marinduque,Confirmed,12/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Buangan,Torrijos,Marinduque,Confirmed,15/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Mahunig,Gasan,Marinduque,Confirmed,18/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Bagtingon,Buenavista,Marinduque,Confirmed,18/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Matandang Gasan,Gasan,Marinduque,Confirmed,19/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Malibago,Torrijos,Marinduque,Confirmed,20/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Pulong-Parang,Santa Cruz,Marinduque,Confirmed,20/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Marlangga,Torrijos,Marinduque,Confirmed,21/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Mangiliol,Gasan,Marinduque,Confirmed,22/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Caigangan,Buenavista,Marinduque,Confirmed,24/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Poras,Boac,Marinduque,Confirmed,25/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Bagacay,Buenavista,Marinduque,Confirmed,28/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Barangay IV,Buenavista,Marinduque,Confirmed,02/05/2024,Confirmed (Animal),Animal,2024,Marinduque
+Daykitin,Buenavista,Marinduque,Confirmed,03/05/2024,Confirmed (Animal),Animal,2024,Marinduque
+Daykitin,Buenavista,Marinduque,Confirmed,30/04/2024,Confirmed (Animal),Animal,2024,Marinduque
+Mainit,Boac,Marinduque,Confirmed,08/05/2024,Confirmed (Animal),Animal,2024,Marinduque
+Barangay II,Buenavista,Marinduque,Confirmed,09/05/2024,Confirmed (Animal),Animal,2024,Marinduque
+Bangbangalon,Boac,Marinduque,Confirmed,09/05/2024,Confirmed (Animal),Animal,2024,Marinduque
+Yook,Buenavista,Marinduque,Confirmed,07/05/2024,Confirmed (Animal),Animal,2024,Marinduque
+Yook,Buenavista,Marinduque,Confirmed,13/05/2024,Confirmed (Animal),Animal,2024,Marinduque
+Caigangan,Buenavista,Marinduque,Confirmed,17/05/2024,Confirmed (Animal),Animal,2024,Marinduque
+Caigangan,Buenavista,Marinduque,Confirmed,16/05/2024,Confirmed (Animal),Animal,2024,Marinduque
+Daykitin,Buenavista,Marinduque,Confirmed,21/05/2024,Confirmed (Animal),Animal,2024,Marinduque
+Bunganay,Boac,Marinduque,Confirmed,29/05/2024,Confirmed (Animal),Animal,2024,Marinduque
+Masiga,Gasan,Marinduque,Confirmed,05/06/2024,Confirmed (Animal),Animal,2024,Marinduque
+Dampulan,Torrijos,Marinduque,Confirmed,06/06/2024,Confirmed (Animal),Animal,2024,Marinduque
+Dawis,Gasan,Marinduque,Confirmed,07/06/2024,Confirmed (Animal),Animal,2024,Marinduque
+Lupac,Boac,Marinduque,Confirmed,09/06/2024,Confirmed (Animal),Animal,2024,Marinduque
+Libas,Buenavista,Marinduque,Confirmed,14/06/2024,Confirmed (Animal),Animal,2024,Marinduque
+Barangay IV,Buenavista,Marinduque,Confirmed,28/06/2024,Confirmed (Animal),Animal,2024,Marinduque
+Angas,Santa Cruz,Marinduque,Confirmed,08/07/2024,Confirmed (Animal),Animal,2024,Marinduque
+Caigangan,Buenavista,Marinduque,Confirmed,09/07/2024,Confirmed (Animal),Animal,2024,Marinduque
+Maybo,Boac,Marinduque,Confirmed,31/05/2023,Confirmed (Animal),Animal,2023,Marinduque
+Tawiran,Santa Cruz,Marinduque,Confirmed,11/11/2024,Confirmed (Animal),Animal,2024,Marinduque
+Tagum,Santa Cruz,Marinduque,Confirmed,14/08/2024,Confirmed (Animal),Animal,2024,Marinduque
+Sawi,Boac,Marinduque,Confirmed,22/08/2024,Confirmed (Animal),Animal,2024,Marinduque
+Barangay I,Buenavista,Marinduque,Confirmed,15/07/2024,Confirmed (Animal),Animal,2024,Marinduque
+Tungib-Lipata,Buenavista,Marinduque,Confirmed,09/10/2024,Confirmed (Animal),Animal,2024,Marinduque
+Yook,Buenavista,Marinduque,Confirmed,08/09/2024,Confirmed (Animal),Animal,2024,Marinduque
+Bangbang,Gasan,Marinduque,Confirmed,19/11/2024,Confirmed (Animal),Animal,2024,Marinduque
+Bahi,Gasan,Marinduque,Confirmed,16/12/2024,Confirmed (Animal),Animal,2024,Marinduque
+Ihatub,Boac,Marinduque,Confirmed,17/12/2024,Confirmed (Animal),Animal,2024,Marinduque
+Bocboc,Mogpog,Marinduque,Confirmed,06/01/2025,Confirmed (Animal),Animal,2025,Marinduque
+Bunganay,Boac,Marinduque,Confirmed,24/12/2024,Confirmed (Animal),Animal,2024,Marinduque
+Suha,Torrijos,Marinduque,Confirmed,07/01/2025,Confirmed (Animal),Animal,2025,Marinduque
+Buyabod,Santa Cruz,Marinduque,Probable,28/03/2025,Probable (Animal),Animal,2025,Marinduque
+Magapua,Mogpog,Marinduque,Confirmed,20/11/2023,Confirmed (Animal),Animal,2023,Marinduque
+Isok I,Boac,Marinduque,Confirmed,13/11/2023,Confirmed (Animal),Animal,2023,Marinduque
+Hupi,Santa Cruz,Marinduque,Probable,28/05/2025,Probable (Animal),Animal,2025,Marinduque
+Matalaba,Santa Cruz,Marinduque,Confirmed,03/06/2025,Confirmed (Animal),Animal,2025,Marinduque
+Tiguion,Gasan,Marinduque,Confirmed,20/07/2025,Confirmed (Animal),Animal,2025,Marinduque
+Masaguisi,Santa Cruz,Marinduque,Confirmed,02/09/2025,Confirmed (Animal),Animal,2025,Marinduque
+Buyabod,Santa Cruz,Marinduque,Confirmed,15/10/2025,Confirmed (Animal),Animal,2025,Marinduque
+Buyabod,Santa Cruz,Marinduque,Confirmed,15/10/2025,Confirmed (Animal),Animal,2025,Marinduque
+Buyabod,Santa Cruz,Marinduque,Probable,02/10/2025,Probable (Animal),Animal,2025,Marinduque
+Balanacan,Mogpog,Marinduque,Confirmed,22/12/2025,Confirmed (Animal),Animal,2025,Marinduque
+Ino,Mogpog,Marinduque,Confirmed,15/01/2026,Confirmed (Animal),Animal,2026,Marinduque
+Tigwi,Torrijos,Marinduque,Confirmed,14/01/2026,Confirmed (Animal),Animal,2026,Marinduque
+Ino,Buenavista,Marinduque,Confirmed,20/03/2026,Confirmed (Animal),Animal,2026,Marinduque
+Malibago,Torrijos,Marinduque,Probable,20/03/2026,Probable (Animal),Animal,2026,Marinduque
+Malibago,Torrijos,Marinduque,Probable,08/04/2026,Probable (Animal),Animal,2026,Marinduque
+Magbay,San Jose,Occidental Mindoro,Confirmed,10/02/2024,Confirmed (Animal),Animal,2024,Occidental Mindoro
+Adela,Rizal,Occidental Mindoro,Confirmed,15/08/2023,Confirmed (Animal),Animal,2023,Occidental Mindoro
+Mapaya,San Jose,Occidental Mindoro,Confirmed,29/08/2023,Confirmed (Animal),Animal,2023,Occidental Mindoro
+Mabini,San Jose,Occidental Mindoro,Confirmed,10/09/2023,Confirmed (Animal),Animal,2023,Occidental Mindoro
+Bagong Sikat,San Jose,Occidental Mindoro,Confirmed,04/11/2023,Confirmed (Animal),Animal,2023,Occidental Mindoro
+Concepcion,Calintaan,Occidental Mindoro,Confirmed,04/02/2022,Confirmed (Animal),Animal,2022,Occidental Mindoro
+Rumbang,Rizal,Occidental Mindoro,Confirmed,07/03/2025,Confirmed (Animal),Animal,2025,Occidental Mindoro
+Camburay,San Jose,Occidental Mindoro,Confirmed,20/02/2026,Confirmed (Animal),Animal,2026,Occidental Mindoro
+Paclolo,Magsaysay,Occidental Mindoro,Confirmed,07/03/2026,Confirmed (Animal),Animal,2026,Occidental Mindoro
+Malinao,Naujan,Oriental Mindoro,Confirmed,10/02/2020,Confirmed (Animal),Animal,2020,Oriental Mindoro
+B. Del Mundo,Mansalay,Oriental Mindoro,Confirmed,02/04/2020,Confirmed (Animal),Animal,2020,Oriental Mindoro
+Del Pilar,Naujan,Oriental Mindoro,Confirmed,26/09/2020,Confirmed (Animal),Animal,2020,Oriental Mindoro
+Sapul,Calapan City,Oriental Mindoro,Confirmed,26/01/2020,Confirmed (Animal),Animal,2020,Oriental Mindoro
+San Narciso,Victoria,Oriental Mindoro,Confirmed,09/02/2021,Confirmed (Animal),Animal,2021,Oriental Mindoro
+Tabinay,Puerto Galera,Oriental Mindoro,Confirmed,05/03/2021,Confirmed (Animal),Animal,2021,Oriental Mindoro
+Tabinay,Puerto Galera,Oriental Mindoro,Confirmed,10/03/2021,Confirmed (Animal),Animal,2021,Oriental Mindoro
+Santo Nino,Puerto Galera,Oriental Mindoro,Confirmed,29/03/2021,Confirmed (Animal),Animal,2021,Oriental Mindoro
+Malapad,Baco,Oriental Mindoro,Confirmed,14/04/2021,Confirmed (Animal),Animal,2021,Oriental Mindoro
+Salong,Calapan City,Oriental Mindoro,Confirmed,23/04/2021,Confirmed (Animal),Animal,2021,Oriental Mindoro
+San Isidro,Puerto Galera,Oriental Mindoro,Confirmed,05/01/2022,Confirmed (Animal),Animal,2022,Oriental Mindoro
+Mayabig,Baco,Oriental Mindoro,Confirmed,14/01/2022,Confirmed (Animal),Animal,2022,Oriental Mindoro
+Anilao,Bongabong,Oriental Mindoro,Confirmed,09/02/2022,Confirmed (Animal),Animal,2022,Oriental Mindoro
+Mangangan I,Baco,Oriental Mindoro,Confirmed,09/02/2022,Confirmed (Animal),Animal,2022,Oriental Mindoro
+Mangangan I,Baco,Oriental Mindoro,Confirmed,16/02/2022,Confirmed (Animal),Animal,2022,Oriental Mindoro
+San Jose,Roxas,Oriental Mindoro,Confirmed,17/02/2022,Confirmed (Animal),Animal,2022,Oriental Mindoro
+Libertad,Roxas,Oriental Mindoro,Confirmed,02/03/2022,Confirmed (Animal),Animal,2022,Oriental Mindoro
+Tagumpay,Baco,Oriental Mindoro,Confirmed,07/03/2022,Confirmed (Animal),Animal,2022,Oriental Mindoro
+Santa Teresita,Mansalay,Oriental Mindoro,Confirmed,22/04/2022,Confirmed (Animal),Animal,2022,Oriental Mindoro
+Polusahi,Bongabong,Oriental Mindoro,Confirmed,29/04/2022,Confirmed (Animal),Animal,2022,Oriental Mindoro
+Narra,Gloria,Oriental Mindoro,Confirmed,08/05/2022,Confirmed (Animal),Animal,2022,Oriental Mindoro
+Don Pedro,Mansalay,Oriental Mindoro,Confirmed,19/05/2022,Confirmed (Animal),Animal,2022,Oriental Mindoro
+Zone III,Pinamalayan,Oriental Mindoro,Confirmed,31/05/2022,Confirmed (Animal),Animal,2022,Oriental Mindoro
+Poblacion,Baco,Oriental Mindoro,Confirmed,27/07/2022,Confirmed (Animal),Animal,2022,Oriental Mindoro
+Poblacion,Baco,Oriental Mindoro,Confirmed,12/08/2022,Confirmed (Animal),Animal,2022,Oriental Mindoro
+Bayanan,Pola,Oriental Mindoro,Confirmed,14/08/2022,Confirmed (Animal),Animal,2022,Oriental Mindoro
+Bagumbayan,Roxas,Oriental Mindoro,Confirmed,22/10/2022,Confirmed (Animal),Animal,2022,Oriental Mindoro
+Balugo,Mansalay,Oriental Mindoro,Confirmed,02/12/2022,Confirmed (Animal),Animal,2022,Oriental Mindoro
+Odiong,Roxas,Oriental Mindoro,Confirmed,13/03/2023,Confirmed (Animal),Animal,2023,Oriental Mindoro
+Bigaan,San Teodoro,Oriental Mindoro,Confirmed,20/03/2023,Confirmed (Animal),Animal,2023,Oriental Mindoro
+San Jose,Roxas,Oriental Mindoro,Confirmed,05/05/2023,Confirmed (Animal),Animal,2023,Oriental Mindoro
+Libtong,Roxas,Oriental Mindoro,Confirmed,31/07/2023,Confirmed (Animal),Animal,2023,Oriental Mindoro
+San Isidro,Puerto Galera,Oriental Mindoro,Confirmed,23/08/2023,Confirmed (Animal),Animal,2023,Oriental Mindoro
+Bagumbayan I,Bongabong,Oriental Mindoro,Confirmed,30/08/2023,Confirmed (Animal),Animal,2023,Oriental Mindoro
+Poblacion III,Victoria,Oriental Mindoro,Confirmed,02/10/2023,Confirmed (Animal),Animal,2023,Oriental Mindoro
+Tacligan,San Teodoro,Oriental Mindoro,Probable,25/10/2023,Probable (Animal),Animal,2023,Oriental Mindoro
+Malayong,Gloria,Oriental Mindoro,Confirmed,20/10/2023,Confirmed (Animal),Animal,2023,Oriental Mindoro
+Bigaan,San Teodoro,Oriental Mindoro,Confirmed,15/11/2023,Confirmed (Animal),Animal,2023,Oriental Mindoro
+San Isidro,Puerto Galera,Oriental Mindoro,Confirmed,11/11/2023,Confirmed (Animal),Animal,2023,Oriental Mindoro
+Bigaan,San Teodoro,Oriental Mindoro,Confirmed,10/01/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Poblacion,Bansud,Oriental Mindoro,Confirmed,16/01/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Balatero,Puerto Galera,Oriental Mindoro,Confirmed,25/01/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Canubing I,Calapan City,Oriental Mindoro,Confirmed,12/02/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Poblacion I,Victoria,Oriental Mindoro,Confirmed,13/03/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Bagumbayan,Roxas,Oriental Mindoro,Confirmed,26/03/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Poblacion,Mansalay,Oriental Mindoro,Confirmed,29/03/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Baruyan,Calapan City,Oriental Mindoro,Confirmed,09/04/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+B. Del Mundo,Mansalay,Oriental Mindoro,Confirmed,26/04/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Santa Brigida,Mansalay,Oriental Mindoro,Confirmed,07/05/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Santa Cruz,Naujan,Oriental Mindoro,Confirmed,11/05/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Nag-Iba II,Calapan City,Oriental Mindoro,Confirmed,28/05/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Melgar B,Naujan,Oriental Mindoro,Confirmed,08/08/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Rosario,Pinamalayan,Oriental Mindoro,Confirmed,13/09/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Narra,Gloria,Oriental Mindoro,Confirmed,18/06/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Bulusan,Calapan City,Oriental Mindoro,Confirmed,20/06/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Bulusan,Calapan City,Oriental Mindoro,Confirmed,02/07/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Villa Cerveza,Victoria,Oriental Mindoro,Confirmed,24/09/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Ilaya,Calapan City,Oriental Mindoro,Confirmed,26/09/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+B. Del Mundo,Mansalay,Oriental Mindoro,Confirmed,30/09/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Santa Isabel,Calapan City,Oriental Mindoro,Confirmed,18/10/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Narra,Gloria,Oriental Mindoro,Confirmed,23/10/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Poblacion IV,Victoria,Oriental Mindoro,Confirmed,07/11/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Maligaya,Gloria,Oriental Mindoro,Confirmed,18/11/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Camilmil,Calapan City,Oriental Mindoro,Confirmed,25/07/2024,Confirmed (Animal),Animal,2024,Oriental Mindoro
+Bancuro,Naujan,Oriental Mindoro,Confirmed,27/05/2025,Confirmed (Animal),Animal,2025,Oriental Mindoro
+Balete,Gloria,Oriental Mindoro,Confirmed,05/06/2025,Confirmed (Animal),Animal,2025,Oriental Mindoro
+Lumang Bayan,Calapan City,Oriental Mindoro,Probable,01/06/2025,Probable (Animal),Animal,2025,Oriental Mindoro
+Andres Bonifacio,Gloria,Oriental Mindoro,Confirmed,24/06/2025,Confirmed (Animal),Animal,2025,Oriental Mindoro
+Santo Nino,Calapan City,Oriental Mindoro,Confirmed,02/07/2025,Confirmed (Animal),Animal,2025,Oriental Mindoro
+Jose Leido Jr.,Victoria,Oriental Mindoro,Probable,07/07/2025,Probable (Animal),Animal,2025,Oriental Mindoro
+Parang,Calapan City,Oriental Mindoro,Confirmed,20/07/2025,Confirmed (Animal),Animal,2025,Oriental Mindoro
+Pili,Pinamalayan,Oriental Mindoro,Confirmed,29/09/2025,Confirmed (Animal),Animal,2025,Oriental Mindoro
+Pili,Pinamalayan,Oriental Mindoro,Probable,31/08/2025,Probable (Animal),Animal,2025,Oriental Mindoro
+Pili,Pinamalayan,Oriental Mindoro,Probable,30/08/2025,Probable (Animal),Animal,2025,Oriental Mindoro
+Pili,Pinamalayan,Oriental Mindoro,Probable,28/08/2025,Probable (Animal),Animal,2025,Oriental Mindoro
+Marfrancisco,Pinamalayan,Oriental Mindoro,Confirmed,22/10/2025,Confirmed (Animal),Animal,2025,Oriental Mindoro
+Ilaya,Calapan City,Oriental Mindoro,Confirmed,16/04/2026,Confirmed (Animal),Animal,2026,Oriental Mindoro
+Odiong,Roxas,Oriental Mindoro,Confirmed,19/05/2026,Confirmed (Animal),Animal,2026,Oriental Mindoro
+Paroyhog,Santa Maria,Romblon,Probable,12/11/2022,Probable (Animal),Animal,2022,Tablas Island (Romblon)
+Cabolutan,San Agustin,Romblon,Confirmed,14/11/2022,Confirmed (Animal),Animal,2022,Tablas Island (Romblon)
+Paroyhog,Santa Maria,Romblon,Confirmed,18/11/2022,Confirmed (Animal),Animal,2022,Tablas Island (Romblon)
+San Isidro,Alcantara,Romblon,Confirmed,17/10/2022,Confirmed (Animal),Animal,2022,Tablas Island (Romblon)
+Dapawan,Odiongan,Romblon,Confirmed,23/11/2022,Confirmed (Animal),Animal,2022,Tablas Island (Romblon)
+Bonlao,Alcantara,Romblon,Confirmed,24/11/2022,Confirmed (Animal),Animal,2022,Tablas Island (Romblon)
+Dapawan,Odiongan,Romblon,Confirmed,10/12/2022,Confirmed (Animal),Animal,2022,Tablas Island (Romblon)
+San Isidro,Alcantara,Romblon,Confirmed,30/09/2022,Confirmed (Animal),Animal,2022,Tablas Island (Romblon)
+Carmen,San Agustin,Romblon,Confirmed,13/12/2022,Confirmed (Animal),Animal,2022,Tablas Island (Romblon)
+Paroyhog,Santa Maria,Romblon,Confirmed,27/12/2022,Confirmed (Animal),Animal,2022,Tablas Island (Romblon)
+Tulay,Odiongan,Romblon,Confirmed,25/12/2022,Confirmed (Animal),Animal,2022,Tablas Island (Romblon)
+Dapawan,Odiongan,Romblon,Confirmed,11/12/2022,Confirmed (Animal),Animal,2022,Tablas Island (Romblon)
+Carmen,San Agustin,Romblon,Confirmed,03/01/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Dapawan,Odiongan,Romblon,Confirmed,13/01/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Sugod,San Agustin,Romblon,Confirmed,20/01/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Concepcion Norte,Santa Maria,Romblon,Confirmed,19/01/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Sugod,San Agustin,Romblon,Confirmed,27/01/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Carmen,San Agustin,Romblon,Confirmed,30/01/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Concepcion Norte,Santa Maria,Romblon,Confirmed,10/01/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Concepcion Sur,Santa Maria,Romblon,Confirmed,07/02/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Juncarlo,San Andres,Romblon,Confirmed,09/02/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Poctoy,Odiongan,Romblon,Confirmed,16/02/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Rizal,Odiongan,Romblon,Confirmed,05/02/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Concepcion Norte,Santa Maria,Romblon,Confirmed,14/02/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Dapawan,Odiongan,Romblon,Confirmed,28/02/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Poctoy,Odiongan,Romblon,Confirmed,01/03/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Mahabang Baybay,San Agustin,Romblon,Confirmed,01/03/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Canduyong,Odiongan,Romblon,Confirmed,14/03/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Gabawan,Odiongan,Romblon,Confirmed,10/03/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Sugod,San Agustin,Romblon,Confirmed,15/03/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Dubduban,San Agustin,Romblon,Confirmed,15/03/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Gui-Ob,Alcantara,Romblon,Confirmed,05/04/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Punta,Looc,Romblon,Confirmed,13/04/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Pangulo,Calatrava,Romblon,Confirmed,19/04/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Concepcion Sur,Santa Maria,Romblon,Probable,26/12/2022,Probable (Animal),Animal,2022,Tablas Island (Romblon)
+Tulay,Odiongan,Romblon,Probable,01/01/2023,Probable (Animal),Animal,2023,Tablas Island (Romblon)
+Cagbuaya,San Agustin,Romblon,Confirmed,23/05/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Dubduban,San Agustin,Romblon,Confirmed,27/06/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Matutuna,San Andres,Romblon,Confirmed,04/07/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Linawan,San Andres,Romblon,Confirmed,03/08/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Carmen,San Agustin,Romblon,Confirmed,01/07/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Mat-I,Santa Fe,Romblon,Confirmed,29/08/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Mat-I,Santa Fe,Romblon,Confirmed,21/08/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Concepcion Norte,Santa Maria,Romblon,Confirmed,09/09/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Bachawan,San Agustin,Romblon,Confirmed,27/09/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Poblacion,Alcantara,Romblon,Confirmed,17/10/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Pangulo,Calatrava,Romblon,Confirmed,25/10/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Tabugon,Santa Fe,Romblon,Confirmed,24/10/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Poblacion,Looc,Romblon,Confirmed,13/11/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Poblacion,Alcantara,Romblon,Confirmed,12/12/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Mahabang Baybay,San Agustin,Romblon,Confirmed,12/02/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+San Roque,Alcantara,Romblon,Confirmed,14/12/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Sugod,San Agustin,Romblon,Confirmed,07/12/2023,Confirmed (Animal),Animal,2023,Tablas Island (Romblon)
+Concepcion Sur,Santa Maria,Romblon,Confirmed,12/12/2022,Confirmed (Animal),Animal,2022,Tablas Island (Romblon)
+Tumingad,Odiongan,Romblon,Confirmed,15/04/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Tulay,Odiongan,Romblon,Confirmed,12/04/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Malilico,Odiongan,Romblon,Confirmed,03/05/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Tumingad,Odiongan,Romblon,Confirmed,10/04/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Bonlao,Alcantara,Romblon,Confirmed,25/04/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Pili,San Fernando,Romblon,Confirmed,28/04/2024,Confirmed (Animal),Animal,2024,Sibuyan Island (Romblon)
+Poctoy,Odiongan,Romblon,Confirmed,03/05/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Cabolutan,San Agustin,Romblon,Probable,23/04/2024,Probable (Animal),Animal,2024,Tablas Island (Romblon)
+Pili,Looc,Romblon,Confirmed,15/05/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Limon Norte,Looc,Romblon,Confirmed,08/05/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Mahabang Baybay,San Agustin,Romblon,Confirmed,16/05/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Tugdan,Alcantara,Romblon,Confirmed,13/05/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Tabobo-An,Odiongan,Romblon,Confirmed,08/05/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Calagonsao,Alcantara,Romblon,Confirmed,15/06/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Sugod,San Agustin,Romblon,Probable,14/02/2024,Probable (Animal),Animal,2024,Tablas Island (Romblon)
+Pandan,Santa Fe,Romblon,Probable,17/02/2024,Probable (Animal),Animal,2024,Tablas Island (Romblon)
+Pandan,Santa Fe,Romblon,Probable,17/02/2024,Probable (Animal),Animal,2024,Tablas Island (Romblon)
+Camili,Alcantara,Romblon,Confirmed,02/03/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Poblacion,Looc,Romblon,Confirmed,12/03/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Tugdan,Alcantara,Romblon,Confirmed,07/04/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Pandan,Santa Fe,Romblon,Confirmed,08/03/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Dapawan,Odiongan,Romblon,Probable,15/04/2025,Probable (Animal),Animal,2025,Tablas Island (Romblon)
+Mayha,Odiongan,Romblon,Probable,15/04/2025,Probable (Animal),Animal,2025,Tablas Island (Romblon)
+Tulay,Odiongan,Romblon,Probable,15/04/2025,Probable (Animal),Animal,2025,Tablas Island (Romblon)
+Pandan,Santa Fe,Romblon,Probable,12/03/2024,Probable (Animal),Animal,2024,Tablas Island (Romblon)
+Camod-Om,Alcantara,Romblon,Probable,19/06/2024,Probable (Animal),Animal,2024,Tablas Island (Romblon)
+Punta,Looc,Romblon,Confirmed,23/05/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Agutay,Magdiwang,Romblon,Confirmed,18/06/2024,Confirmed (Animal),Animal,2024,Sibuyan Island (Romblon)
+Taclobo,San Fernando,Romblon,Confirmed,08/07/2024,Confirmed (Animal),Animal,2024,Sibuyan Island (Romblon)
+Cambajao,Cajidiocan,Romblon,Confirmed,12/07/2024,Confirmed (Animal),Animal,2024,Sibuyan Island (Romblon)
+San Isidro,Alcantara,Romblon,Confirmed,06/07/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Calagonsao,Alcantara,Romblon,Confirmed,26/07/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Poblacion,Santa Fe,Romblon,Confirmed,16/10/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Gabawan,Odiongan,Romblon,Probable,21/09/2024,Probable (Animal),Animal,2024,Tablas Island (Romblon)
+Camod-Om,Alcantara,Romblon,Confirmed,01/09/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Tugdan,Alcantara,Romblon,Confirmed,11/10/2024,Confirmed (Animal),Animal,2024,Tablas Island (Romblon)
+Jao-Asan,Magdiwang,Romblon,Confirmed,13/10/2024,Confirmed (Animal),Animal,2024,Sibuyan Island (Romblon)
+Ipil,Magdiwang,Romblon,Confirmed,26/11/2024,Confirmed (Animal),Animal,2024,Sibuyan Island (Romblon)
+Poblacion,Magdiwang,Romblon,Confirmed,11/11/2024,Confirmed (Animal),Animal,2024,Sibuyan Island (Romblon)
+Poblacion,Cajidiocan,Romblon,Confirmed,10/11/2024,Confirmed (Animal),Animal,2024,Sibuyan Island (Romblon)
+Poblacion,Magdiwang,Romblon,Confirmed,09/11/2024,Confirmed (Animal),Animal,2024,Sibuyan Island (Romblon)
+Azarga,San Fernando,Romblon,Confirmed,04/03/2025,Confirmed (Animal),Animal,2025,Sibuyan Island (Romblon)
+Pili,Looc,Romblon,Probable,14/01/2025,Probable (Animal),Animal,2025,Tablas Island (Romblon)
+Poblacion,Ferrol,Romblon,Confirmed,09/05/2025,Confirmed (Animal),Animal,2025,Tablas Island (Romblon)
+Poblacion,San Andres,Romblon,Confirmed,14/05/2025,Confirmed (Animal),Animal,2025,Tablas Island (Romblon)
+Poblacion,San Agustin,Romblon,Confirmed,15/05/2025,Confirmed (Animal),Animal,2025,Tablas Island (Romblon)
+Dapawan,Odiongan,Romblon,Confirmed,07/07/2025,Confirmed (Animal),Animal,2025,Tablas Island (Romblon)
+Buenavista,Looc,Romblon,Confirmed,09/08/2025,Confirmed (Animal),Animal,2025,Tablas Island (Romblon)
+Dona Juana,San Agustin,Romblon,Confirmed,10/06/2025,Confirmed (Animal),Animal,2025,Tablas Island (Romblon)
+Tacasan,Corcuera,Romblon,Probable,12/09/2025,Probable (Animal),Animal,2025,Corcuera Island (Romblon)
+Alegria,Corcuera,Romblon,Confirmed,20/10/2025,Confirmed (Animal),Animal,2025,Corcuera Island (Romblon)
+San Vicente,Corcuera,Romblon,Confirmed,22/10/2025,Confirmed (Animal),Animal,2025,Corcuera Island (Romblon)
+Dapawan,Odiongan,Romblon,Confirmed,08/10/2025,Confirmed (Animal),Animal,2025,Tablas Island (Romblon)
+San Roque,Calatrava,Romblon,Probable,02/05/2026,Probable (Animal),Animal,2026,Tablas Island (Romblon)
+Otod,San Fernando,Romblon,Probable,23/05/2026,Probable (Animal),Animal,2026,Sibuyan Island (Romblon)
+Tugdan,Alcantara,Romblon,Probable,02/12/2025,Probable (Animal),Animal,2025,Tablas Island (Romblon)
+Poblacion,Puerto Galera,Oriental Mindoro,Probable,29/04/2026,Probable (Animal),Animal,2026,Oriental Mindoro
+San Isidro,Bongabong,Oriental Mindoro,Human Death,08/05/2019,Human Death,Human,2019,Oriental Mindoro
+Odiong,Roxas,Oriental Mindoro,Human Death,15/05/2019,Human Death,Human,2019,Oriental Mindoro
+Libertad,Roxas,Oriental Mindoro,Human Death,03/07/2019,Human Death,Human,2019,Oriental Mindoro
+Evangelista,Naujan,Oriental Mindoro,Human Death,15/07/2019,Human Death,Human,2019,Oriental Mindoro
+Balite,Naujan,Oriental Mindoro,Human Death,31/12/2019,Human Death,Human,2019,Oriental Mindoro
+Del Razon,Pinamalayan,Oriental Mindoro,Human Death,13/02/2020,Human Death,Human,2020,Oriental Mindoro
+Quinabigan,Pinamalayan,Oriental Mindoro,Human Death,24/03/2020,Human Death,Human,2020,Oriental Mindoro
+Malubay,Gloria,Oriental Mindoro,Human Death,08/06/2020,Human Death,Human,2020,Oriental Mindoro
+Orconuma,Bongabong,Oriental Mindoro,Human Death,20/06/2020,Human Death,Human,2020,Oriental Mindoro
+Panikihan,Pola,Oriental Mindoro,Human Death,28/07/2020,Human Death,Human,2020,Oriental Mindoro
+Mina de Oro,Bongabong,Oriental Mindoro,Human Death,06/08/2020,Human Death,Human,2020,Oriental Mindoro
+Poblacion,Bulalacao,Oriental Mindoro,Human Death,31/08/2020,Human Death,Human,2020,Oriental Mindoro
+Waygan,Mansalay,Oriental Mindoro,Human Death,05/11/2020,Human Death,Human,2020,Oriental Mindoro
+Santa Teresita,Mansalay,Oriental Mindoro,Human Death,24/11/2020,Human Death,Human,2020,Oriental Mindoro
+Carmundo,Bongabong,Oriental Mindoro,Human Death,16/01/2021,Human Death,Human,2021,Oriental Mindoro
+Salcedo,Bansud,Oriental Mindoro,Human Death,30/01/2021,Human Death,Human,2021,Oriental Mindoro
+Tawas,Bongabong,Oriental Mindoro,Human Death,15/02/2021,Human Death,Human,2021,Oriental Mindoro
+San Aquilino,Roxas,Oriental Mindoro,Human Death,18/02/2021,Human Death,Human,2021,Oriental Mindoro
+Santa Teresita,Mansalay,Oriental Mindoro,Human Death,30/03/2021,Human Death,Human,2021,Oriental Mindoro
+Don Pedro,Mansalay,Oriental Mindoro,Human Death,17/09/2021,Human Death,Human,2021,Oriental Mindoro
+Sagana,Bongabong,Oriental Mindoro,Human Death,13/10/2021,Human Death,Human,2021,Oriental Mindoro
+Concepcion Sur,Santa Maria,Romblon,Human Death,03/02/2023,Human Death,Human,2023,Tablas Island (Romblon)
+Buhay na Tubig,Pola,Oriental Mindoro,Human Death,13/10/2021,Human Death,Human,2021,Oriental Mindoro
+Roma,Mansalay,Oriental Mindoro,Human Death,17/06/2022,Human Death,Human,2022,Oriental Mindoro
+Banus,Gloria,Oriental Mindoro,Human Death,18/07/2022,Human Death,Human,2022,Oriental Mindoro
+Puting Cacao,Pola,Oriental Mindoro,Human Death,31/07/2022,Human Death,Human,2022,Oriental Mindoro
+Maningcol,Pinamalayan,Oriental Mindoro,Human Death,10/10/2022,Human Death,Human,2022,Oriental Mindoro
+Bacungan,Pola,Oriental Mindoro,Human Death,28/10/2022,Human Death,Human,2022,Oriental Mindoro
+Santo Domingo,Socorro,Oriental Mindoro,Human Death,24/11/2022,Human Death,Human,2022,Oriental Mindoro
+Wawa,Pinamalayan,Oriental Mindoro,Human Death,26/11/2022,Human Death,Human,2022,Oriental Mindoro
+Cawayan,Bongabong,Oriental Mindoro,Human Death,05/12/2022,Human Death,Human,2022,Oriental Mindoro
+Tulay,Odiongan,Romblon,Human Death,12/05/2023,Human Death,Human,2023,Tablas Island (Romblon)
+Waygan,Mansalay,Oriental Mindoro,Human Death,07/09/2023,Human Death,Human,2023,Oriental Mindoro
+Salcedo,Bansud,Oriental Mindoro,Human Death,13/04/2023,Human Death,Human,2023,Oriental Mindoro
+Don Pedro,Mansalay,Oriental Mindoro,Human Death,28/08/2023,Human Death,Human,2023,Oriental Mindoro
+Maybo,Boac,Marinduque,Human Death,21/09/2023,Human Death,Human,2023,Marinduque
+Cawayan,San Agustin,Romblon,Human Death,30/10/2023,Human Death,Human,2023,Tablas Island (Romblon)
+Manguyang,Gloria,Oriental Mindoro,Human Death,31/01/2024,Human Death,Human,2024,Oriental Mindoro
+Daykitin,Buenavista,Marinduque,Human Death,08/03/2024,Human Death,Human,2024,Marinduque
+San Jose,Roxas,Oriental Mindoro,Human Death,01/06/2024,Human Death,Human,2024,Oriental Mindoro
+Masaguisi,Bongabong,Oriental Mindoro,Human Death,11/06/2024,Human Death,Human,2024,Oriental Mindoro
+Panggulayan,Pinamalayan,Oriental Mindoro,Human Death,11/06/2024,Human Death,Human,2024,Oriental Mindoro
+Tabugon,Santa Fe,Romblon,Human Death,29/09/2024,Human Death,Human,2024,Tablas Island (Romblon)
+Cambijang,Cajidiocan,Romblon,Human Death,13/10/2024,Human Death,Human,2024,Sibuyan Island (Romblon)
+Adela,Rizal,Occidental Mindoro,Human Death,09/08/2023,Human Death,Human,2023,Occidental Mindoro
+Pili,Looc,Romblon,Human Death,19/03/2025,Human Death,Human,2025,Tablas Island (Romblon)
+Tampayan,Magdiwang,Romblon,Human Death,28/05/2025,Human Death,Human,2025,Sibuyan Island (Romblon)
+San Vicente,Corcuera,Romblon,Human Death,09/11/2025,Human Death,Human,2025,Corcuera Island (Romblon)
+Yook,Buenavista,Marinduque,Human Death,20/11/2025,Human Death,Human,2025,Marinduque
+Poblacion,San Jose,Occidental Mindoro,Human Death,17/08/2024,Human Death,Human,2024,Occidental Mindoro
+Poblacion,San Jose,Occidental Mindoro,Human Death,27/03/2024,Human Death,Human,2024,Occidental Mindoro
+Cantil,Roxas,Oriental Mindoro,Human Death,19/04/2026,Human Death,Human,2026,Oriental Mindoro
