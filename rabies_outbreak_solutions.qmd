@@ -72,7 +72,7 @@ Code is folded but available via the **Show code** button.
 
 ## 1. Describing the outbreak:
 
-### 1.1 Epidemic curve 
+### 1.1. Epidemic curve 
 
 Monthly reported animal rabies cases (confirmed and probable) and human rabies deaths in Oriental Mindoro, Romblon, Marinduque and Occidental Mindoro are presented in a time series.
 
@@ -94,7 +94,7 @@ ggplot(dat_outbreak_trun, aes(x = date, fill = case_status_fct)) +
         legend.position = "top")
 ```
 
-### 1.2 Locations of cases
+### 1.2. Locations of cases
 
 The spatial distribution of all these cases are mapped. Human deaths are
 shown as triangles, whilst animal cases are shown as circles.
@@ -164,7 +164,7 @@ Which provinces suffered the worst outbreaks and which are now closest to having
 Looking at the epidemic curve by province reveals whether provinces were affected
 simultaneously or sequentially — this is important for understanding routes of disease spread and the timing of introduction events
 
-### 2.1 Oriental Mindoro
+### 2.1. Oriental Mindoro
 
 > **Key questions and things to explore:**
 >
@@ -287,7 +287,7 @@ ggplot() +
 
 #### How does the outbreak look in Romblon if we break this down by island?
 
-```{r epi-curve-romblon, fig.width=9, fig.height=7}
+```{r epi-curve-romblon, fig.width=9, fig.height=5}
 
 dat_romblon = dat_outbreak %>% 
   filter(province == "Romblon")
@@ -388,7 +388,7 @@ ggplot() +
 ```
 
 
-### 2.3 Marinduque
+### 2.3. Marinduque
 
 > **Key questions and things to consider:**
 >
@@ -517,7 +517,7 @@ ggplot(dat_outbreak, aes(x = date, fill = case_status_fct)) +
         legend.position = "top")
 ```
 
-### 3.2 Epidemic curve by province
+### 3.2. Epidemic curve by province
 
 ```{r epi-curve-facet, fig.width=9, fig.height=8}
 ggplot(dat_outbreak, aes(x = date, fill = case_status_fct)) +
@@ -534,7 +534,7 @@ ggplot(dat_outbreak, aes(x = date, fill = case_status_fct)) +
         strip.text       = element_text(face = "bold"))
 ```
 
-### 3.3 Regional location of cases
+### 3.3. Regional location of cases
 
 Spatial distribution of all cases from 2019 to 2026. Human deaths are
 shown as triangles, whilst animal cases are shown as circles.
@@ -577,11 +577,12 @@ ggplot() +
 
 ```
 
+
 ### 3.4. How do human deaths compare with animal cases?
 
 A critical question is whether surveillance is sufficient. If we have areas where human deaths occur 
 with relatively few reported animal cases this would suggest under-reporting
-of animal cases. Therefore, the incidence of the ratio of human deaths to animal cases may provide an estimate of the surveillance sensitivity and reporting.
+of animal cases. Therefore, the annual incidence and the ratio of human deaths to animal cases may provide an indication of the surveillance sensitivity and reporting.
 
 #### Population estimates by province
 
@@ -590,64 +591,147 @@ of animal cases. Therefore, the incidence of the ratio of human deaths to animal
 | Oriental Mindoro | 900,000 | 200,000 |
 | Occidental Mindoro | 510,000 | 110,000 |
 | Marinduque | 220,000 | 40,000 |
-| Romblon (Tablas) | 170,000 | 30,000 |
-| Romblon (Sibuyan) | 65,000 | 15,000 |
-| Romblon (Corcuera) | 9,000 | 2,000 |
+| Romblon | 284,000 | 55,800 |
 
 
-#### 3.4.1 Incidence of human deaths and animal cases
+#### 3.4.1. Incidence of human deaths and animal cases
+
+Calculating the annual incidence of human deaths and animal cases by province
 
 ```{r incidence-table}
-# Population data
+# Population data by province
 dog_pop <- c(
-  "Oriental Mindoro"    = 200000,
-  "Occidental Mindoro"    = 110000,
-  "Marinduque" = 40000,
-  "Tablas Island (Romblon)"     = 30000,
-  "Sibuyan Island (Romblon)"    = 15000,
-  "Corcuera Island (Romblon)"   = 2000,
-  "Romblon Island (Romblon)" = 8800
-  
+  "Oriental Mindoro"  = 200000,
+  "Occidental Mindoro" = 110000,
+  "Marinduque"        = 40000,
+  "Romblon"           = 55800   # 30000 + 15000 + 2000 + 8800
 )
 
 human_pop <- c(
-  "Oriental Mindoro"    = 920000,
-    "Occidental Mindoro"    = 510000,
-  "Marinduque" = 220000,
-  "Tablas Island (Romblon)"     = 170000,
-  "Sibuyan Island (Romblon)"    = 65000,
-  "Corcuera Island (Romblon)"   = 9000,
-  "Romblon Island (Romblon)" = 40000
+  "Oriental Mindoro"  = 920000,
+  "Occidental Mindoro" = 510000,
+  "Marinduque"        = 220000,
+  "Romblon"           = 284000  # 170000 + 65000 + 9000 + 40000
 )
 
-dat_outbreak %>%
-  filter(!is.na(island)) %>%                          # drop unmatched locations
+dat_outbreak <- dat_outbreak %>%
   mutate(years = as.numeric(max(date, na.rm = TRUE) - 
-                            min(date, na.rm = TRUE)) / 365.25) %>% 
-  group_by(island) %>%
+                            min(date, na.rm = TRUE)) / 365.25) 
+
+# Summary by province
+province_summary <- dat_outbreak %>%
+  mutate(year = lubridate::year(date)) %>%
+  group_by(province) %>%
   summarise(
     animal_cases = sum(case_type == "Animal"),
     human_deaths = sum(case_type == "Human"),
     years        = first(years),
-    dogs         = dog_pop[first(island)],
-    humans       = human_pop[first(island)],
+    dogs         = dog_pop[first(province)],
+    humans       = human_pop[first(province)],
     .groups = "drop"
   ) %>%
   mutate(
     animal_incidence = round(animal_cases / (dogs * years) * 1000, 2),
     human_incidence  = round(human_deaths / (humans * years) * 100000, 2)
+  )
+
+# Overall row
+overall_row <- dat_outbreak %>%
+  summarise(
+    province     = "Overall",
+    animal_cases = sum(case_type == "Animal"),
+    human_deaths = sum(case_type == "Human"),
+    years        = first(years),
+    dogs         = sum(unique(dog_pop)),
+    humans       = sum(unique(human_pop)),
+    animal_incidence = round(animal_cases / (dogs * years) * 1000, 2),
+    human_incidence  = round(human_deaths / (humans * years) * 100000, 2)
+  )
+
+# Worst case: highest human incidence in any single year + province
+worst_case <- dat_outbreak %>%
+  mutate(year = lubridate::year(date)) %>%
+  group_by(province, year) %>%
+  summarise(
+    human_deaths = sum(case_type == "Human"),
+    .groups = "drop"
   ) %>%
+  mutate(
+    humans = human_pop[province],
+    human_incidence = round(human_deaths / humans * 100000, 2)
+  ) %>%
+  slice_max(human_incidence, n = 1)
+
+
+# Bind and display
+tbl <- bind_rows(province_summary, overall_row)
+
+tbl %>%
   select(
-    Island            = island,
-    `Animal cases`    = animal_cases,
-    `Animal incidence (per 1,000 dogs/year)` = animal_incidence,
-    `Human deaths`    = human_deaths,
-    `Human incidence (per 100,000 people/year)` = human_incidence
+    Province                                      = province,
+    `Animal cases`                                = animal_cases,
+    `Animal incidence (per 1,000 dogs/year)`      = animal_incidence,
+    `Human deaths`                                = human_deaths,
+    `Human incidence (per 100,000 people/year)`   = human_incidence
   ) %>%
-  reactable(striped = TRUE, highlight = TRUE, pagination = FALSE)
+  reactable(
+    striped = TRUE,
+    highlight = TRUE,
+    pagination = FALSE,
+    rowStyle = function(index) {
+      if (tbl$province[index] == "Overall") {
+        list(fontWeight = "bold")
+      }
+    }
+  )
+
+
 ```
 
-#### 3.4.2 Ratio of human deaths to animal cases
+
+
+#### 3.4.2. How does the annual incidence extrapolate? 
+
+Romblon in 2023 and 2025 recorded the highest annual human rabies incidence at 1.06 deaths per 100,000 people. 
+What happens if we extrapolate these numbers to the overall population 
+(population estimate of the Philippines ~113 million)?
+
+
+```{r death-scenario}
+total_pop = 113000000
+av_inc = 0.38
+wost_inc = 1.06
+
+tibble(
+  Scenario        = c("Regional average", "Worst case"),
+  Rate            = c(av_inc, wost_inc),
+  Expected_deaths = c(round(total_pop * (av_inc / 100000),0), 
+                      round(total_pop * (wost_inc / 100000),0))
+) %>%
+  reactable(
+    striped    = TRUE,
+    highlight  = TRUE,
+    pagination = FALSE,
+    columns = list(
+      Scenario = colDef(name = "Incidence"),
+      Rate = colDef(
+        name   = "Rate (per 100,000/year)",
+        format = colFormat(digits = 2)
+      ),
+      Expected_deaths = colDef(
+        name   = "Expected deaths/year (Philippines)",
+        format = colFormat(separators = TRUE)
+      )
+    )
+  )
+
+```
+
+
+#### 3.4.3. Ratio of human deaths to animal cases
+
+How do the ratios of human deaths to animal cases vary across provinces? What do these suggest about the surveillance strength?
+
 ```{r ratio-table}
 dat_outbreak %>%
   group_by(province) %>%
@@ -664,7 +748,7 @@ dat_outbreak %>%
   reactable(striped = TRUE, highlight = TRUE, pagination = FALSE)
 ```
 
-### 3.5. Is rabies an emerging infectious disease threat or a neglected disease of poverty?
+### 4. Is rabies an emerging infectious disease threat or a neglected disease of poverty?
 Rabies can be viewed as an emerging disease that can cause outbreaks in areas where it was previously absent. But it is also a disease that is entirely vaccine-preventable, that can be eliminated through dog vaccination, whilst human deaths only occur if people at-risk do not access emergency life-saving vaccines after an exposure.
 
 The last decade in MIMAROPA region illustrates all of these different situations. Can you quantify the incidence of human rabies deaths and of rabies in dogs in each province and how this varies by year?
