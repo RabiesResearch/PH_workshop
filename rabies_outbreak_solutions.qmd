@@ -1,5 +1,5 @@
 ---
-title: "Rabies Outbreak MIMAROPA — Solutions"
+title: "Responding to a Zoonotic Disease Outbreak - Epidemiological interpretation and implications for decision-making in One Health"
 date: today
 format:
   html:
@@ -64,16 +64,17 @@ monthly_breaks_trun <- seq.Date(
 ## Overview
 
 This document works through a series of exploratory plots that help characterise
-the rabies outbreak across MIMAROPA in Romblon, Oriental Mindoro, Marinduque, and Occidental
-Mindoro. Code is folded but available via the **Show code** button.
+a recent rabies outbreak across MIMAROPA region (spanning Romblon, Oriental Mindoro, Marinduque, and Occidental Mindoro provinces). 
+
+Code is folded but available via the **Show code** button.
 
 ---
 
-## 1. How did the outbreak evolve over time?
+## 1. Describing the outbreak:
 
 ### 1.1 Epidemic curve 
 
-Monthly reported animal cases (confirmed and probable) and human deaths in Oriental Mindoro, Romblon, Marinduque and Occidental Mindoro
+Monthly reported animal rabies cases (confirmed and probable) and human rabies deaths in Oriental Mindoro, Romblon, Marinduque and Occidental Mindoro are presented in a time series.
 
 ```{r epi-curve-overall, fig.width=7, fig.height=4}
 
@@ -93,9 +94,9 @@ ggplot(dat_outbreak_trun, aes(x = date, fill = case_status_fct)) +
         legend.position = "top")
 ```
 
-### 1.2 Location of cases
+### 1.2 Locations of cases
 
-Spatial distribution of all cases. Human deaths are
+The spatial distribution of all these cases are mapped. Human deaths are
 shown as triangles, whilst animal cases are shown as circles.
 
 ```{r map, fig.width=6, fig.height=6}
@@ -137,38 +138,40 @@ ggplot() +
 
 > **Next steps:**
 >
-> - Explore the whole outbreak period (2019 - 2026)?
-> - What does looking at this data by province tell us? 
+> - How does your interpretation of the epidemiological situation change when you view the whole time period (2019 - 2026)?
+> - What does looking at these data by province tell us? 
 > - What specific challenges might have been encountered in each province?
-> - What can you say about the overall outbreak? Where should we focus our surveillance and intervention efforts?
+> - What can you say about the overall epidemiological situation? 
+Which provinces suffered the worst outbreaks and which are now closest to having rabies under control and may even be approaching elimination?
+> - Where should surveillance and intervention efforts be strengthened?
 > - What additional plots and information would you want to be able to understand this better?
 
 
 <details>
 <summary><strong>💡 Hints</strong></summary>
 
-- These plots combines all provinces — try breaking this plots down by province. For Romblon it may be useful to break this down further by island (Tablas, Sibuyan, and Corcuera).
+- These plots combines all provinces — try breaking this plot down by province. For Romblon it may be useful to break this down further by island (Tablas, Sibuyan, and Corcuera).
 - Try zooming in on a particular time period (e.g. 2019–2021).
-- Roughly 1 person is bitten every 3 rabid dogs. Of people bitten, 90% get PEP. Of the 10% that don't get PEP, 20% will develop rabies and die. How does this change your interpretation of the early outbreak period?
+- How helpful is the human surveillance data without the animal surveillance? and vice versa? with both sets of data combined what new conclusions do you draw?
 - How do the population sizes above change your interpretation of the case counts? 
 
 </details>
 
 ---
 
-## 2 How did the outbreak evolve in each province?
+## 2. How did the epidemiological situation evolve in each province?
 
 Looking at the epidemic curve by province reveals whether provinces were affected
-simultaneously or sequentially — important for understanding transmission routes and introduction events
+simultaneously or sequentially — this is important for understanding routes of disease spread and the timing of introduction events
 
 ### 2.1 Oriental Mindoro
 
 > **Key questions and things to explore:**
 >
-> - What is happenning in the early outbreak period? 
-> - How do animal cases and human cases compare in Oriental Mindoro
+> - What is happening in the early outbreak period? 
+> - How do animal cases compare to human cases in Oriental Mindoro?
 > - Roughly 1 person is bitten every 3 rabid dogs. Of people bitten, 90% get PEP. Of the 10% that don't get PEP, 20% will develop rabies and die. How does this change your interpretation of the early outbreak period?
-> - How does the human in April 2026 change your interpretation of what is happenning in Ormin 
+> - How does the most recent human death in April 2026 (look at the 2026 map! **should we not show the very end of the timeseries?**) change your interpretation of what is happening in Oriental Mindoro? 
 
 ```{r epi-curve-ormin, fig.width=9, fig.height=3.5}
 
@@ -204,9 +207,9 @@ dat_outbreak %>%
   )
 
 ```
-*Dates of mass dog vaccination campaigns are shown in grey (MDV campaign defined as >700 dogs vaccinated in a municipality in a month)*
+*Dates of mass dog vaccination campaigns are shown in grey (a campaign is defined as >700 dogs vaccinated in a municipality in a month)*
 
-#### How do human cases compare to animal cases in Ormin?
+#### How do human cases compare to animal cases in Oriental Mindoro?
 
 ```{r epi-curve-facet-ormin, fig.width=9, fig.height=5}
 
@@ -225,7 +228,7 @@ ggplot(aes(x = date, fill = case_status_fct)) +
         strip.text       = element_text(face = "bold"))
 ```
 
-#### Distribution of cases in Ormin over time
+#### Does the distribution of cases over time and across municipalities suggest any gaps in surveillance (from the health or animal health perspective)?
 
 ```{r map-ormin, fig.width=11, fig.height=7}
 
@@ -269,15 +272,17 @@ ggplot() +
   )
 ```
 
-> **Key questions:**
+
 
 ### 2.2. Romblon
 
-> **Key questions:**
+> **Key questions and things to consider:**
 >
-> - How did the outbreak evolve in Romblon over time? Romblon is made up on different islands, how did it spread over time?
-> - What do these plots tell you about the current surveillance efforts in Romblon?
-> - When did the first death occur? And how does this correspond to the increase in dog vaccination efforts? 
+> - Romblon province is made up of different islands. How did rabies spread across the islands over time?
+> - If you were facing the situation in Tablas island in December 2022 (look at the 2022 map), what actions would you recommend to the local authorities?
+- When did the first death occur? What can you say about the responsiveness of dog vaccination efforts? 
+> - What if you were facing the situation in Sibuyan island in December 2023, would you be concerned? what communications would you want between municipalities? How might your thinking change by August 2024? Do you have any concerns if you are from Corcuera island?
+>  What do these complete plots tell you about the current surveillance efforts in Romblon?
 
 
 #### How does the outbreak look in Romblon if we break this down by island?
@@ -338,7 +343,7 @@ ggplot(aes(x = date, fill = case_status_fct)) +
         strip.text       = element_text(face = "bold"))
 ```
 
-#### Spatial distributions of cases in Romblon by year
+#### Spatial distributions of human and animal rabies cases in Romblon by year
 
 ```{r map-romblon, fig.width=9, fig.height=7}
 
@@ -390,8 +395,8 @@ ggplot() +
 > - How did the outbreak evolve in Marinduque over time?
 > - What do these plots tell you about the current surveillance efforts in Marinduque?
 > - When did the first death occur? And how does this correspond to the increase in dog vaccination efforts? 
-> - How does the outbreak in Marinduque compare to the outbreaks in Ormin and Romblon?
-> - How does the human death in Dec 2025 impact your interpretation
+> - How does the outbreak in Marinduque compare to the outbreaks in Oriental mindoro and Romblon provinces?
+> - How does the human death in Dec 2025 impact your interpretation?
 
 
 ```{r epi-curve-marin, fig.width=9, fig.height=4}
@@ -433,7 +438,7 @@ ggplot(aes(x = date, fill = case_status_fct)) +
         strip.background = element_rect(fill = "#f0f0f0"),
         strip.text       = element_text(face = "bold"))
 ```
-*Dates of mass dog vaccination campaigns are shown in grey (MDV campaign defined as >700 dogs vaccinated in a municipality in a month)*
+*Dates of mass dog vaccination campaigns are shown in grey (a campaign defined as >700 dogs vaccinated in a municipality in a month)*
 
 
 
@@ -485,10 +490,10 @@ ggplot() +
 
 > **Key questions and things to explore:**
 >
-> - Which province do you think has the most robust surveillance? 
+> - Which province do you think has the most robust surveillance? (consider surveillance from the veterinary perspective, the public health perspective and under a One Health approach) 
 > - Do you consider rabies to be endemic in any of the provinces? 
 > - What do you think are the triggers of outbreak responses?
-> - How to the ratios of human to animal cases differ in the three provinces?
+> - Why do the ratios of human to animal cases differ in the three provinces?
 
 ### 3.1 Extended epidemic curve 
 
@@ -659,7 +664,15 @@ dat_outbreak %>%
   reactable(striped = TRUE, highlight = TRUE, pagination = FALSE)
 ```
 
+### 3.5. Is rabies an emerging infectious disease threat or a neglected disease of poverty?
+Rabies can be viewed as an emerging disease that can cause outbreaks in areas where it was previously absent. But it is also a disease that is entirely vaccine-preventable, that can be eliminated through dog vaccination, whilst human deaths only occur if people at-risk do not access emergency life-saving vaccines after an exposure.
 
+The last decade in MIMAROPA region illustrates all of these different situations. Can you quantify the incidence of human rabies deaths and of rabies in dogs in each province and how this varies by year?
+What is the highest incidence? and what is the lowest incidence?
+Taking these extremes, and extrapolating to the entirety of the Philippines, what is the worst case scenario? how many rabies deaths *could* occur across the country if they were all to face the same challenges in rabies control and prevention?
+
+And what if rabies control improved and surveillance was better - what is the best case scenario? 
+What are the obstacles to achieving this best case outcome? and what can be done better that can support the best outcome?!
 
 
 
