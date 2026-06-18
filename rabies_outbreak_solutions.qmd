@@ -29,6 +29,7 @@ province_names <- c("Romblon", "Oriental Mindoro", "Marinduque", "Occidental Min
 dat_outbreak <- read_csv(here("data","epi","dat_all_anon.csv"))
 dat_outbreak <- dat_outbreak %>% mutate(date = dmy(date))
 mdv_summary <- read.csv(here("data", "epi", "mdv_summary.csv"))
+mdv_rolling <- read_csv(here("data", "epi", "rolling_vac_cov_yr.csv"))
 
 ## Filtering outbreak data
 dat_outbreak_trun <- dat_outbreak %>% 
@@ -230,7 +231,7 @@ ggplot(aes(x = date, fill = case_status_fct)) +
 
 #### Does the distribution of cases over time and across municipalities suggest any gaps in surveillance (from the health or animal health perspective)?
 
-```{r map-ormin, fig.width=11, fig.height=7}
+```{r map-ormin, fig.width=13, fig.height=13}
 
 
 dat_mapped <- dat_outbreak %>%
@@ -245,10 +246,18 @@ dat_mapped <- dat_outbreak %>%
   )
 
 municipality_df <- municipality %>%
-  filter(NAME_1 == "Oriental Mindoro")
+  filter(NAME_1 == "Oriental Mindoro") %>% 
+  left_join(mdv_rolling, by = c("NAME_2" = "municipality")) %>% 
+  filter(NAME_2 != "Naujan Lake") ## Removing water body which was causing NA
+
 
 ggplot() +
-  geom_sf(data = municipality_df, alpha = 0, colour = "dimgrey", linewidth = 0.4) +
+  geom_sf(data = municipality_df, aes(fill = vacc_cov_roll * 100), alpha = 80) +
+      scale_fill_gradient(
+      name   = "Vaccination \ncoverage",
+      low    = "#FFFFFB", high = "#DFA801",
+      labels = comma, limits = c(0, 100)
+    ) +
   geom_point(
     data = dat_mapped,
     aes(x = Longitude, y = Latitude,
@@ -271,6 +280,7 @@ ggplot() +
     strip.text       = element_text(face = "bold")
   )
 ```
+*Note: some vaccination has occurred in 2026, however this data has not yet been released*
 
 
 
@@ -345,7 +355,7 @@ ggplot(aes(x = date, fill = case_status_fct)) +
 
 #### Spatial distributions of human and animal rabies cases in Romblon by year
 
-```{r map-romblon, fig.width=9, fig.height=7}
+```{r map-romblon, fig.width=13, fig.height=11}
 
 
 dat_mapped <- dat_outbreak %>%
@@ -360,10 +370,18 @@ dat_mapped <- dat_outbreak %>%
   )
 
 municipality_df <- municipality %>%
-  filter(NAME_1 == "Romblon")
+  filter(NAME_1 == "Romblon") %>% 
+  left_join(mdv_rolling, by = c("NAME_2" = "municipality")) %>% 
+  filter(year >= 2022) ## filtering as no cases in Romblon until 2022
+  
 
 ggplot() +
-  geom_sf(data = municipality_df, alpha = 0, colour = "dimgrey", linewidth = 0.4) +
+  geom_sf(data = municipality_df, aes(fill = vacc_cov_roll * 100), alpha = 80) +
+      scale_fill_gradient(
+      name   = "Vaccination \ncoverage",
+      low    = "#FFFFFB", high = "#DFA801",
+      labels = comma, limits = c(0, 100)
+    ) +
   geom_point(
     data = dat_mapped,
     aes(x = Longitude, y = Latitude,
@@ -386,7 +404,7 @@ ggplot() +
     strip.text       = element_text(face = "bold")
   )
 ```
-
+*Note: some vaccination has occurred in 2026, however this data has not yet been released*
 
 ### 2.3. Marinduque
 
@@ -442,7 +460,7 @@ ggplot(aes(x = date, fill = case_status_fct)) +
 
 
 
-```{r map-marin, fig.width=10, fig.height=6}
+```{r map-marin, fig.width=13, fig.height=11}
 
 
 dat_mapped <- dat_outbreak %>%
@@ -457,10 +475,18 @@ dat_mapped <- dat_outbreak %>%
   )
 
 municipality_df <- municipality %>%
-  filter(NAME_1 == "Marinduque")
+  filter(NAME_1 == "Marinduque") %>% 
+  left_join(mdv_rolling, by = c("NAME_2" = "municipality")) %>% 
+  filter(year >= 2023) ## filtering as no cases in Marinduque until 2022
+  
 
 ggplot() +
-  geom_sf(data = municipality_df, alpha = 0, colour = "dimgrey", linewidth = 0.4) +
+  geom_sf(data = municipality_df, aes(fill = vacc_cov_roll * 100), alpha = 80) +
+      scale_fill_gradient(
+      name   = "Vaccination \ncoverage",
+      low    = "#FFFFFB", high = "#DFA801",
+      labels = comma, limits = c(0, 100)
+    ) +
   geom_point(
     data = dat_mapped,
     aes(x = Longitude, y = Latitude,
@@ -471,7 +497,7 @@ ggplot() +
   scale_colour_manual(values = pal_type) +
   scale_shape_manual(values  = c("Human" = 17, "Animal" = 16)) +
   scale_alpha_manual(values  = c("Human" = 1,  "Animal" = 0.8)) +
-  facet_wrap(~ year) +
+  facet_wrap(~ year, ncol = 2) +
   labs(
     colour = "", shape = "", alpha = "" ) +
   theme_minimal(base_size = 13) +
@@ -483,6 +509,7 @@ ggplot() +
     strip.text       = element_text(face = "bold")
   )
 ```
+*Note: some vaccination has occurred in 2026, however this data has not yet been released*
 
 ---
 
