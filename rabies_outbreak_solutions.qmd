@@ -47,12 +47,14 @@ pal_status <- c("Human Death"        = "#A3003F",
 pal_type   <- c("Human" = "#A3003F",
                 "Animal" = "#3C8590")
 
+# Create monthly breaks 
 monthly_breaks <- seq.Date(
   from = floor_date(min(dat_outbreak$date - 60, na.rm = TRUE), "month"),
   to   = ceiling_date(max(dat_outbreak$date), "month"),
   by   = "month"
 ) - 1
 
+# now create monthly breaks for a truncated period
 monthly_breaks_trun <- seq.Date(
   from = floor_date(min(dat_outbreak_trun$date - 60, na.rm = TRUE), "month"),
   to   = ceiling_date(max(dat_outbreak_trun$date), "month"),
@@ -76,6 +78,16 @@ Code is folded but available via the **Show code** button.
 ### 1.1. Epidemic curve 
 
 Monthly reported animal rabies cases (confirmed and probable) and human rabies deaths in Oriental Mindoro, Romblon, Marinduque and Occidental Mindoro are presented in a time series.
+
+**To Do: ** 
+
+- better label start point (no gap from month 0).
+- add province and island locations to map & grey out Palawan & Occ Min.
+- add comments to co throughout
+- split up data for part 1, groups 1, 2 and 3, and part 2 to make easier for participants
+- simplify (comment out) added extras, like showing vaccination coverage
+- expand and explain the incidence and extrapolations below
+
 
 ```{r epi-curve-overall, fig.width=7, fig.height=4}
 
