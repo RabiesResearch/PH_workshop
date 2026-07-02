@@ -36,3 +36,5 @@ rsconnect/
 .positai
 PH_workshop.Rproj
 *.DS_Store
+.DS_Store
+.Rproj.user

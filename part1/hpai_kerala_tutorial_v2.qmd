@@ -1,0 +1,934 @@
+---
+title: "HPAI in Kerala — Spatial and temporal analysis"
+subtitle: "Morning hands-on tutorial"
+date: today
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: true
+    embed-resources: true
+    fig-width: 12
+    fig-height: 6
+    df-print: paged
+    fontsize: 15px
+    header-includes: |
+      <style>
+        body         { font-size: 15px; line-height: 1.5; }
+        h1           { font-size: 1.7em; }
+        h2           { font-size: 1.35em; }
+        h3           { font-size: 1.15em; }
+        h4           { font-size: 1.0em; }
+        pre code     { font-size: 0.85em; }
+        code         { font-size: 0.9em; }
+        #TOC         { font-size: 13px; }
+        .callout     { font-size: 0.95em; }
+      </style>
+  pdf:
+    toc: true
+    number-sections: true
+    fig-width: 12
+    fig-height: 6
+execute:
+  warning: false
+  message: false
+  echo: true
+---
+
+<!--
+HOW TO RENDER THIS DOCUMENT
+--------------------------------------------------------------------------------
+By default all R chunks have `eval: false`, so this file renders cleanly into a
+tutorial WITHOUT running any code or producing any figures. Participants run the
+code themselves during the workshop.
+
+To produce a SOLUTIONS version with real figures embedded, change the YAML to:
+
+    knitr:
+      opts_chunk:
+        eval: true
+
+…and make sure the data files (hpai_kerala.csv, India_State.shp,
+western.ghats.districts.shp + sidecar files) are in the same folder as the .qmd.
+--------------------------------------------------------------------------------
+-->
+
+## Overview
+
+This tutorial walks you through a complete basic analysis of **highly pathogenic avian influenza (HPAI) outbreaks reported in Kerala, India**, combining the **spatial** and **temporal** methods from this morning's lecture. By the end you will have answered four questions about these outbreaks:
+
+1. **Where** have outbreaks occurred across Kerala?
+2. Are outbreaks **spatially clustered**, or scattered randomly across the state?
+3. **When** have outbreaks occurred — is there a yearly or seasonal pattern?
+4. Have the **hotspots shifted** over time?
+
+You'll use the same skills this afternoon on the rabies outbreak dataset from MIMAROPA, so take your time on the fundamentals here.
+
+## Learning objectives
+
+By the end of the workshop, you will be able to:
+
+1. Explain why **animal/person, place and time** are core dimensions of descriptive epidemiology and disease surveillance.
+2. Describe the basic structure of a **disease surveillance dataset**, including common variables such as date, location, species or population group, case status, diagnostic status and outcome.
+3. Conduct simple **descriptive analyses** of surveillance data, including counts, proportions and stratified summaries.
+4. Use **spatial data** to:
+   a. Recognise common types of spatial data used in epidemiology, including **points, polygons and rasters**.
+   b. Understand basic mapping concepts, including **coordinates, coordinate reference systems, projections and map scale**.
+   c. Create and interpret simple disease maps, including **point maps and choropleth maps**.
+   d. Recognise common spatial patterns in disease data, including **clustering, hotspots and apparent surveillance gaps**.
+5. Use **temporal data** to:
+   a. Create and interpret simple temporal visualisations, including **epidemic curves and time-series plots**.
+   b. Understand basic temporal concepts in disease surveillance, including **aggregation by time unit, trends, seasonality and changes over time**.
+6. Apply descriptive, spatial and temporal analyses to generate **evidence-based observations** about disease distribution and surveillance patterns.
+7. **Communicate quantitative findings** clearly to a mixed-methods team, including explaining what the data can and cannot show.
+
+::: {.callout-note}
+## Files you need (in your workshop folder)
+
+- `hpai_kerala.csv` — HPAI events reported in Kerala, 2015–2024 (106 events)
+- `IND_adm2.shp` (and its `.dbf`, `.shx`, `.prj` files) — district
+  polygons for the Western Ghats states, including Kerala (from the spatial
+  session)
+:::
+
+::: {.callout-tip}
+## How to work through this document
+
+Each section has **Code to run**, an **Exercise** box, and a collapsible **Show solution** dropdown. Try the exercise yourself before peeking at the solution. Don't worry if your numbers or plots differ slightly from the solution — understanding *why* matters more than matching exactly.
+:::
+
+------------------------------------------------------------------------
+
+# Getting set up: R, RStudio and your project
+
+Before you can work through the analysis you need three things: **R** (the language), **RStudio** (the editor where you'll write and run code), and an **R project** (a folder that R treats as home so file paths just work). If your laptop already has all of this, skip to Section 1.
+
+::: {.callout-tip}
+## Do this *before* the workshop if you can
+
+Installing R and RStudio over conference Wi-Fi is painful. If you have a chance, do steps 1 and 2 the night before.
+:::
+
+## Step 1 — Install R
+
+R is the underlying language. You install it once and rarely think about it again.
+
+1. Go to <https://cran.r-project.org/>.
+2. Click the download link for your operating system.
+3. **Windows:** click *base* → *Download R-x.x.x for Windows* → run the installer.
+4. **Mac:** download the `.pkg` file matching your processor (Apple silicon M1/M2/M3 vs. Intel) → run it.
+5. Accept the default options throughout.
+
+## Step 2 — Install RStudio
+
+RStudio is the friendly interface for writing R. It is a separate program that uses R under the hood.
+
+1. Go to <https://posit.co/download/rstudio-desktop/>.
+2. Download the free **RStudio Desktop** installer for your operating system.
+3. Run the installer and accept the defaults.
+
+When you open RStudio you'll see four panels: the **script editor** (top left), the **console** (bottom left) where code runs, the **environment** (top right) showing the data you've loaded, and the **files/plots/help viewer** (bottom right).
+
+## Step 3 — Create an R project
+
+An R project is just a folder that R treats as your working directory. Using one means you can write `read_csv("hpai_kerala.csv")` instead of a long file path.
+
+1. In RStudio, go to **File → New Project**.
+2. Choose **New Directory**, then **New Project**.
+3. Name it something memorable (e.g. `hpai_workshop`).
+4. Pick a parent folder (Desktop or Documents is fine).
+5. Click **Create Project**.
+
+RStudio will reopen with that folder as your working directory. The folder will contain a small `.Rproj` file — double-click that file in future to reopen the project.
+
+## Step 4 — Put the data files in your project folder
+
+Copy the files listed in the **Files you need** box above into the project folder you just created. (You can put the shapefiles in a `Maps/` subfolder to keep things tidy — the code in Section 1.2 expects this.)
+
+## Step 5 — Install the packages you'll need
+
+A *package* is a bundle of extra R functions someone has written and shared. You install a package **once** (it downloads from the internet) and then load it with `library()` each session you want to use it.
+
+Open a new R script (**File → New File → R Script**) or a Quarto document (**File → New File → Quarto Document**), paste in the line below, and run it. This installs everything used in the tutorial in one go.
+
+```{r install-packages}
+#| eval: false
+install.packages(c("sf", "spdep", "tidyverse",
+                   "lubridate", "forecast", "ggspatial", "classInt"),
+                 repos = "https://cloud.r-project.org/")
+```
+
+It may take a few minutes. Once it finishes you're ready to go.
+
+::: {.callout-note}
+## A quick word on script vs. Quarto
+
+For this tutorial, either is fine. A **Quarto document** (`.qmd`) lets you mix narrative text and code chunks — it's what this tutorial itself is written in. A plain **R script** (`.R`) is just code. If you're new to R, start with a Quarto document so you can take notes alongside the code.
+:::
+
+------------------------------------------------------------------------
+
+# 1. Setup & data
+
+## 1.1 Load the packages
+
+You met all of these this morning. If any package is missing, install it once
+with `install.packages("packagename")`.
+
+::: {.callout-note collapse="true"}
+## Load packages
+
+```{r packages}
+library(sf)          # spatial vector data
+library(spdep)       # spatial dependence / Moran's I
+library(tidyverse)   # dplyr + ggplot2 + readr
+library(lubridate)   # easy date handling
+library(forecast)    # time-series tools (ACF, decomposition helpers)
+library(ggspatial)   # Plotting maps
+```
+:::
+
+## 1.2 Read the data
+
+::: {.callout-note collapse="true"}
+## Read the data
+
+```{r read-data}
+# HPAI outbreak events (one row per event)
+hpai <- read_csv("hpai_kerala.csv")
+
+# Spatial layers for the spatial session
+districts <- read_sf("Maps/IND_adm2.shp")
+
+districts          # prints the first 10 rows with all columns
+names(districts)   # all column names including the attribute ones
+head(st_drop_geometry(districts))   # attribute table only, no geometry
+```
+:::
+
+## 1.3 Inspect and clean
+
+::: {.callout-note collapse="true"}
+## Inspect the data
+
+```{r inspect}
+# Check the dimensions of the dataset: how many rows (observations) and columns (variables)
+dim(hpai)
+
+# Display the structure of the dataset: variable names, data types, and a preview of values
+# Look out for dates stored as 'chr' (character) instead of 'Date' — these will need converting
+str(hpai)
+
+# Print the first 6 rows so you can visually inspect the data
+head(hpai)
+
+# Summarise each variable: min/max/mean for numeric columns, and counts for factors
+# Useful for spotting missing values (shown as NA's) and unexpected ranges
+summary(hpai)
+```
+:::
+
+::: {.callout-important}
+## Exercise 1.3a
+
+1. How many HPAI events are recorded? What date range do they cover?
+2. Which column tells you *when* the event occurred? Is it stored as a proper date?
+3. Which columns give the *location* of each event?
+4. How many different localities (villages/farms) appear in the data?
+:::
+
+::: {.callout-tip collapse="true"}
+## Show solution
+
+```{r sol-1-3}
+nrow(hpai)                          # 106 events
+
+# 'date' should already be a Date when read_csv() parses it.
+# If it shows as character, convert:
+class(hpai$date)                    # "Date"
+
+hpai <- hpai |>
+  mutate(date = ymd(date))
+
+range(hpai$date, na.rm = TRUE)      # 2015-01-28 to 2024-12-14
+
+# Location columns
+hpai |> select(Locality, lat, lon) |> head()
+
+length(unique(hpai$Locality))       # number of distinct localities
+```
+:::
+
+Another feature that you might have noticed is that many of the columns are in character format. They should be stored as factors, because then each factor is a category of that variable. We can convert the columns using base R, or more fancy packages.
+
+::: {.callout-important}
+## Exercise 1.3b
+
+See if you can work out the base R approach (no additional packages should be used).
+:::
+
+::: {.callout-tip collapse="true"}
+## Show solution
+```{r}
+#| label: convert-factors
+
+# --- Base R approach ---
+# as.factor() converts a character column to a factor.
+# We reassign a new column (so no overwriting).
+
+hpai$SerotypeFac        <- as.factor(hpai$Serotype)
+hpai$Diagnosis.statusFac <- as.factor(hpai$Diagnosis.status)
+hpai$Animal.typeFac    <- as.factor(hpai$Animal.type)
+hpai$speciesFac         <- as.factor(hpai$species)
+
+# Check the result: levels() shows the unique categories R now knows about
+levels(hpai$SerotypeFac)
+summary(hpai$SerotypeFac)   # now shows counts per category, not just "Length"
+```
+
+Here is the same using the tidyverse package. It is more brief. It's not necessarily better, and requires more understanding of how to read code.
+
+```{r}
+#| label: convert-factors-tidy
+
+# --- Tidyverse alternative (does the same thing, all in one pipe) ---
+# across() lets you apply the same function to multiple columns at once,
+# rather than repeating as.factor() line by line.
+# Here, we overwrite the columns. (I added a few more, e.g. State)
+
+hpai <- hpai |>
+  mutate(across(c(State, Locality, Serotype, Diagnosis.status, Animal.type, species), as.factor))
+
+# Verify
+str(hpai)   # Original Factor columns now show "Factor w/ N levels" instead of "chr" and match the new columns made in base R.
+```
+::: 
+
+------------------------------------------------------------------------
+
+# 2. Spatial analysis
+
+We'll now look at **where** outbreaks have occurred. Each row of `hpai` has a
+latitude and longitude, so each event is a point in space.
+
+## 2.1 Convert outbreaks to a spatial object
+
+::: {.callout-note collapse="true"}
+## Convert to a spatial object
+
+Right now `hpai` is a plain data frame — R doesn't know the `lat` and `lon`
+columns mean anything geographical. We use `st_as_sf()` to make it spatial, and
+`st_set_crs()` to tell R which coordinate reference system the coordinates are
+in (WGS84 / EPSG:4326 is the standard for lat–long data).
+
+### Reading this pipe chain
+
+Each |> passes the result of the previous step into the next function, so you can read this top to bottom as a sequence of transformations (a pipe chain) happening to the same data:
+
+Start with hpai (a plain data frame)
+
+st_as_sf() — converts it to a spatial object. The coords = c("lon", "lat") argument tells R which columns hold the coordinates, and critically, the order matters: longitude first, latitude second (x before y, just like a graph axis)
+
+st_set_crs("EPSG:4326") — attaches a coordinate reference system. Without this step, R has numbers but no idea what they mean geographically. EPSG:4326 is the code for WGS 84, a standard GPS coordinate system (degrees of latitude/longitude on the globe).
+
+More on EPSG:4326:
+
+EPSG codes are a standardised catalogue of coordinate reference systems. 4326 is the one you almost always start with when your data comes as decimal longitude/latitude — it's the same system your phone GPS uses. Later in the workshop we can reproject to a different CRS for distance calculations.
+
+
+```{r make-sf}
+hpai_sf <- hpai |>
+  st_as_sf(coords = c("lon", "lat")) |>
+  st_set_crs("EPSG:4326")
+
+class(hpai_sf)
+head(hpai_sf)
+```
+:::
+
+::: {.callout-tip}
+## Why the order is `c("lon", "lat")`
+
+`st_as_sf()` expects **x then y**, which means **longitude first, latitude
+second**. Getting this the wrong way round is one of the most common mistakes
+in spatial work — your points will end up in the wrong country!
+:::
+
+## 2.2 Get the Kerala district map
+
+The `districts` shapefile covers all five Western Ghats states. We just want
+Kerala.
+
+::: {.callout-important}
+## Exercise 2.2
+
+Filter `districts` down to **Kerala only** and make a quick plot to check it
+worked. Hint: look at `names(districts)` or `head(districts)` to find the state
+column.
+:::
+
+::: {.callout-tip collapse="true"}
+## Show solution
+
+```{r sol-2-2}
+names(districts)        # find the column that holds state names
+head(districts)
+
+# Filter to Kerala
+kerala <- districts |>
+  filter(NAME_1 == "Kerala")
+
+# Quick visual check that the filter worked
+plot(st_geometry(kerala))
+```
+:::
+
+## 2.3 Plot outbreaks on the Kerala map
+
+Now we overlay our spatial HPAI points on the Kerala districts. This is the
+single most useful first plot for any outbreak investigation: *where are the
+cases?*
+
+::: {.callout-note collapse="true"}
+## Let's set up the data
+
+```{r point-map}
+# Two layers: Kerala districts as polygons, then HPAI outbreaks as points on top.
+# Note we leave ggplot() empty and tell each geom_sf() which dataset to use,
+# because the two layers come from different sf objects.
+ggplot() +
+  geom_sf(data = kerala, fill = "lightgrey", colour = "white") +
+  geom_sf(data = hpai_sf, colour = "red", size = 1.5, alpha = 0.6) +
+  annotation_scale(location = "bl") +
+  labs(title = "HPAI outbreaks in Kerala, 2015-2024") +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(),
+    axis.text  = element_blank(),
+    axis.ticks = element_blank()
+  )
+```
+:::
+
+::: {.callout-important}
+## Exercise 2.3
+
+Looking at your map and the previous code, improve the layout, colours and sizes of outbreak points.
+
+1. Which part of Kerala (north, central, south, coast, inland) appears to have
+   the most outbreaks?
+2. Are points evenly spread across the state, or do you see obvious clusters?
+3. What might explain this pattern? (Think about: poultry farming areas,
+   wetlands attracting wild waterbirds, surveillance effort…)
+:::
+
+## 2.4 Aggregate outbreaks to districts (choropleth map)
+
+Points can be hard to interpret when several outbreaks occur in the same
+locality (they overlap on the map). A **choropleth** map shades each district by
+the number of outbreaks it contains — making the spatial pattern much clearer.
+
+::: {.callout-note collapse="true"}
+## Let's set up the data
+
+```{r choropleth}
+# Count points within each district polygon
+kerala <- kerala |>
+  mutate(hpai_count = lengths(st_intersects(kerala, hpai_sf)))
+
+# Inspect
+kerala |> st_drop_geometry() |> select(starts_with("hpai"), everything()) |> head()
+```
+
+
+``` {r plotCPmap}
+# Choropleth map
+ggplot(kerala) +
+  geom_sf(aes(fill = hpai_count), colour = "white") +
+  scale_fill_distiller(palette = "Reds", direction = 1,
+                       name = "HPAI outbreaks") +
+  labs(title = "HPAI outbreaks/district, Kerala 2015–2024") +
+  annotation_scale(location = "bl") +
+  annotation_north_arrow(location = "bl",
+                         pad_y = unit(0.8, "cm")) +
+  theme_minimal() +
+  theme(
+    plot.title      = element_text(hjust = 1),       # title top-right
+    legend.position = c(0.85, 0.97),                 # legend top-left
+    legend.justification = c("left", "top"),
+    panel.grid      = element_blank(),
+    axis.text       = element_blank(),
+    axis.ticks      = element_blank()
+  )
+```
+:::
+
+::: {.callout-important}
+## Exercise 2.4
+
+1. Which district(s) have the most reported HPAI outbreaks?
+2. Try changing `style = "jenks"` to `"quantile"`, `"equal"`, then `"pretty"`.
+   Does the visual story change? Which one do you find clearest, and why?
+3. Many districts will have **zero** outbreaks. Does "zero outbreaks" mean
+   "no HPAI", or could it mean something else?
+:::
+
+::: {.callout-tip collapse="true"}
+## Solution
+```{r choropleth_updated}
+library(classInt)
+
+# 1. Compute the class boundaries
+brks <- classIntervals(kerala$hpai_count, n = 3, style = "quantile")$brks
+# Try swapping style = "jenks", "quantile", "equal", or "pretty" and see the map change.
+
+brks = unique(brks)
+
+# 2. Pre-bin the data into a factor using those boundaries
+#    include.lowest = TRUE makes sure the minimum value isn't dropped
+#    dig.lab controls how many digits appear in the auto-generated labels
+kerala$hpai_class <- cut(kerala$hpai_count,
+                         breaks         = brks,
+                         include.lowest = TRUE,
+                         dig.lab        = 2)
+
+# Take a look at the breaks and the resulting bins
+print(brks)
+table(kerala$hpai_class)
+```
+
+``` {r plotBreaks}
+
+# 3. Plot the factor with a discrete Brewer palette
+ggplot(kerala) +
+  geom_sf(aes(fill = hpai_class), colour = "white") +
+  scale_fill_brewer(palette = "Reds",
+                    name    = "HPAI outbreaks",
+                    na.value = "grey90") +
+  annotation_scale(location = "bl") +
+  annotation_north_arrow(location = "bl",
+                         pad_y  = unit(0.8, "cm"),
+                         style  = north_arrow_minimal()) +
+  labs(title = "HPAI outbreaks/district, Kerala 2015–2024") +
+  theme_minimal() +
+  theme(
+    plot.title           = element_text(hjust = 1),
+    legend.position      = c(0.75, 0.95),
+    legend.justification = c("left", "top"),
+    panel.grid           = element_blank(),
+    axis.text            = element_blank(),
+    axis.ticks           = element_blank()
+  )
+```
+:::
+
+::: {.callout-tip collapse="true"}
+## Show discussion
+
+Zero counts in surveillance data are ambiguous — whilst they could truly mean *no disease*, they could also mean *disease present but not reported* (poor access to veterinary services, no testing, under-reporting). Always interpret maps of reported cases with this in mind. This is the **ascertainment bias** issue mentioned in the lecture.
+
+Also, quantile classification fails on zero-inflated data. When more than one quantile boundary falls at the same value (very common when many districts have zero outbreaks), 'breaks' are not unique. The fix is either to de-duplicate the breaks (and accept fewer classes) or to separate zeros into their own class. Try style = "jenks" or "fisher" on the same data — they handle the skew much better.
+:::
+
+## 2.5 Are outbreaks spatially clustered? (Moran's I)
+
+The choropleth tells us where outbreaks are, but does it formally show **clustering**? Moran's I can gives us a statistical measure of this.
+
+Moran's I measures whether values at nearby locations are more similar to each other than you'd expect if the values were sprinkled randomly across the map — positive values mean "clustered," near-zero means "random," and a small P-value tells you the pattern probably isn't a coincidence.
+
+Moran's I is a summary statistic, not an explanation. It tells you if clustering exists (beware of false negatives if there are few data points). It does not tell you why. Wetlands? Poultry density? Surveillance effort? That would have to be investigated.
+
+::: {.callout-note collapse="true"}
+## Moran's I
+
+```{r moran}
+# Neighbour list (which districts share a border?) and spatial weights
+# poly2nb() looks at every pair of districts and asks "do these two polygons share a border?" 
+# If yes, they're neighbours. 
+# nb2listw() then turns that list of neighbours into spatial weights by comparing district A's value to its surroundings, take the average of these specific neighbours."
+
+kerala.nb <- poly2nb(kerala)
+kerala.lw <- nb2listw(kerala.nb, zero.policy = TRUE)
+
+# Global Moran's I
+moran.test(kerala$hpai_count, kerala.lw, zero.policy = TRUE)
+```
+:::
+
+::: {.callout-important}
+## Exercise 2.5
+
+1. What is the Moran's I value? Is it positive, negative, or near zero?
+2. What is the P-value? Does it suggest the spatial pattern is different from
+   random?
+3. In words: is HPAI in Kerala **clustered**, **dispersed**, or **random**?
+:::
+
+::: {.callout-tip collapse="true"}
+## Show discussion
+
+A positive Moran's I means districts with high outbreak counts tend to be next to other districts with high counts (and vice versa) — i.e. **clustering**. A small p-value (< 0.05) means this pattern is unlikely to have occurred by chance.
+
+With only 14 Kerala districts and a small number of outbreaks/district, Moran's I has limited statistical power. **Always combine the test result with what you see on the map** — a non-significant test does not prove there is no clustering, just that there isn't enough evidence in this dataset.
+
+```{r sol-2-5-local}
+# Local Moran's I — one statistic per district instead of one for the whole map
+local_I <- localmoran(kerala$hpai_count, kerala.lw, zero.policy = TRUE)
+
+# localmoran() returns a matrix; pull out the p-value column we want
+# (the column name varies slightly by spdep version, so check with colnames(local_I))
+kerala$local_p <- local_I[, "Pr(z != E(Ii))"]
+
+# Bin into "significant" vs "not" so the map reads at a glance
+# include.lowest = TRUE catches any district with p == 0 exactly
+kerala$local_sig <- cut(kerala$local_p,
+                        breaks         = c(-Inf, 0.1, Inf),
+                        labels         = c("p < 0.1", "p ≥ 0.1"),
+                        include.lowest = TRUE)
+
+ggplot(kerala) +
+  geom_sf(aes(fill = local_sig), colour = "white") +
+  scale_fill_manual(values = c("p < 0.1" = "#b30000",
+                               "p ≥ 0.1" = "grey85"),
+                    name   = "Local Moran's I") +
+  annotation_scale(location = "bl") +
+  annotation_north_arrow(location = "bl",
+                         pad_y  = unit(0.8, "cm"),
+                         style  = north_arrow_minimal()) +
+  labs(title = "Local Moran's I — where is clustering concentrated?") +
+  theme_minimal() +
+  theme(
+    plot.title           = element_text(hjust = 1),
+    legend.position      = c(0.75, 0.95),
+    legend.justification = c("left", "top"),
+    panel.grid           = element_blank(),
+    axis.text            = element_blank(),
+    axis.ticks           = element_blank()
+  )
+```
+:::
+
+------------------------------------------------------------------------
+
+# 3. Temporal analysis
+
+We've answered *where*. Now we turn to *when*. The same 106 events, but now we
+ignore location and look only at dates.
+
+## 3.1 Outbreaks by year
+
+::: {.callout-tip collapse="true"}
+## Set up and visualise the data
+
+```{r yearly}
+hpai_year <- hpai |>
+  mutate(year = year(date)) |>
+  count(year, name = "events")
+
+hpai_year
+
+ggplot(hpai_year, aes(x = year, y = events)) +
+  geom_col(fill = "#2c5f7c") +
+  scale_x_continuous(breaks = 2015:2024) +
+  labs(x = "", y = "Number of HPAI events",
+       title = "HPAI events in Kerala by year") +
+  theme_bw()
+```
+:::
+
+::: {.callout-important}
+## Exercise 3.1
+
+1. Are outbreak counts steady from year to year, or do you see **peak years**?
+2. Are there any years with zero or near-zero reported outbreaks?
+3. Is the most recent year (2024) higher or lower than the average?
+:::
+
+## 3.2 Build a monthly time-series
+
+Annual counts hide within-year patterns. To check for seasonality we need a shorter temporal unit. Aggregating to **month** gives a good balance: not so short that the series is mostly zeros, not so coarse that we lose patterns.
+
+::: {.callout-tip collapse="true"}
+```{r monthly-naive}
+# Floor each date to the first of its month, then count
+hpai_monthly <- hpai |>
+  mutate(month = floor_date(date, "month")) |>
+  count(month, name = "events")
+
+head(hpai_monthly)
+```
+
+## Important: fill in months with zero outbreaks
+
+If you simply `count()` events by month, months with *no* outbreaks are **missing entirely** from the result — they don't appear as zeros. For a time-series we must put those zeros back in.
+
+```{r monthly-fill}
+# Make a complete sequence of months covering the study period
+all_months <- tibble(
+  month = seq(floor_date(min(hpai$date), "month"),
+              floor_date(max(hpai$date), "month"),
+              by = "month")
+)
+
+# Join, replacing missing counts with 0
+hpai_monthly <- all_months |>
+  left_join(hpai_monthly, by = "month") |>
+  mutate(events = replace_na(events, 0))
+
+head(hpai_monthly, 12)
+nrow(hpai_monthly)        # should be ~120 months (10 years x 12)
+```
+
+
+```{r monthly-plot}
+ggplot(hpai_monthly, aes(x = month, y = events)) +
+  geom_col(fill = "#2c5f7c") +
+  scale_x_date(date_breaks = "1 year", date_labels = "%Y") +
+  labs(x = "", y = "HPAI events",
+       title = "Monthly HPAI events in Kerala") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 40, vjust = 0.5))
+```
+:::
+
+::: {.callout-important}
+## Exercise 3.2
+
+Describe the series in plain language.
+
+1. How many months have any outbreaks reported? How many have zero?
+2. Do outbreaks come as **isolated single months**, or as **clusters** of nearby months?
+3. Is this a "well-behaved" time-series like the ones in the lecture, or does it look quite different? What does that tell you about HPAI as a disease?
+:::
+
+::: {.callout-tip collapse="true"}
+## Show discussion
+
+HPAI is an **epizootic/episodic** disease — long quiet periods punctuated by short, intense outbreak episodes. The time-series has many zeros and a few large spikes. This is very common for outbreak data and is one of the challenges mentioned in the time-series lecture: **data sparseness (excessive zeros)** limits the kinds of models we can fit.
+
+For data like this, we typically focus on **describing** the pattern (when do outbreaks occur, what is their typical duration?) rather than fitting a formal ARIMA forecasting model.
+:::
+
+## 3.3 Is there a seasonal pattern?
+
+Even with sparse data we can ask: *are outbreaks more common in certain months
+of the year?*
+
+::: {.callout-note collapse="true"}
+## Let's set up the data
+
+```{r seasonal}
+hpai_by_month <- as.data.frame(table(month_num = month(hpai$date, label = TRUE)))
+names(hpai_by_month)[2] <- "events"
+hpai_by_month
+
+ggplot(hpai_by_month, aes(x = month_num, y = events)) +
+  geom_col(fill = "#2c5f7c") +
+  labs(x = "Month of year", y = "Total HPAI events (2015-2024)",
+       title = "HPAI events by month of year, Kerala") +
+  theme_bw()
+```
+:::
+
+::: {.callout-important}
+## Exercise 3.3
+
+1. Which months show the most HPAI activity in Kerala? Which months show the least?
+2. Does this match what you know about HPAI biology — in particular, the role of **migratory waterbirds** and cooler weather favouring virus survival?
+3. The Kerala monsoon runs roughly June–September. Do outbreaks tend to occur during, before, or after the monsoon?
+:::
+
+## 3.4 Decomposition (with caveats)
+
+For completeness, let's try the STL decomposition you saw in the lecture. Because our series is so sparse, the decomposition output is more for *illustration* than for serious modelling.
+
+::: {.callout-note collapse="true"}
+## Let's set up the data
+
+```{r decomp}
+# Convert to a 'ts' object so STL can use it
+hpai_ts <- ts(hpai_monthly$events,
+              start = c(year(min(hpai_monthly$month)),
+                        month(min(hpai_monthly$month))),
+              frequency = 12)
+
+hpai_ts
+
+plot(stl(hpai_ts, s.window = "periodic"),
+     main = "STL decomposition: monthly HPAI events, Kerala")
+```
+:::
+
+::: {.callout-important}
+## Exercise 3.4
+
+Looking at the four panels (data, seasonal, trend, remainder):
+
+1. Which component shows the most variation? (Compare the y-axis ranges.)
+2. Is there an apparent long-term **trend**?
+3. The **seasonal** panel shows the estimated month-of-year effect. Does it agree with what you found in section 3.3?
+:::
+
+::: {.callout-tip collapse="true"}
+## Show discussion
+
+For sparse outbreak data, the **remainder** component will dominate — most of the variation is in the spikes themselves rather than in smooth trend or seasonal components. This is a useful diagnostic: it tells us that "average" behaviour is a poor summary of this series, and that understanding individual outbreak *episodes* matters more than fitting a smooth model.
+:::
+
+## 3.5 Autocorrelation
+
+Finally, let's check whether outbreaks in one month tend to be associated with outbreaks in nearby months — the **temporal autocorrelation** concept from the lecture.
+
+::: {.callout-note collapse="true"}
+## Let's set up the data
+
+```{r acf}
+acf(hpai_ts, main = "ACF: monthly HPAI events in Kerala")
+```
+:::
+
+::: {.callout-important}
+## Exercise 3.5
+
+1. At **lag 1** (a one-month gap): is there significant autocorrelation (a bar extending beyond the dashed blue line)?
+2. What about at **lag 12** (a one-year gap)? What would significant autocorrelation at lag 12 suggest?
+3. Compare the result to the "textbook" CPV ACF you saw in the lecture — is the HPAI series more or less autocorrelated?
+:::
+
+::: {.callout-tip collapse="true"}
+## Show discussion
+
+A bar at **lag 1** that's beyond the confidence band means: when this month has outbreaks, next month also tends to have outbreaks — consistent with **outbreak episodes** lasting more than one month. A bar at **lag 12** would suggest a calendar-year-repeating seasonal pattern.
+
+The HPAI series will typically show *less* overall autocorrelation than a "textbook" endemic-disease series, because the long quiet periods (lots of zeros) weaken the correlation structure.
+:::
+
+------------------------------------------------------------------------
+
+# 4. Space × time together
+
+So far we've looked at *where* and *when* separately. Real outbreak investigation requires both at once.
+
+## 4.1 Outbreaks by district over time
+
+::: {.callout-note collapse="true"}
+## Let's set up the data
+
+```{r sxt-facet}
+# Identify the top districts by outbreak count to keep the plot readable
+top_districts <- head(kerala$NAME_2[order(-kerala$hpai_count)], 6)
+top_districts
+
+# Join district name to each HPAI event (spatial join)
+hpai_with_district <- st_join(hpai_sf, kerala["NAME_2"])
+
+# Plot
+hpai_with_district |>
+  st_drop_geometry() |>
+  filter(NAME_2 %in% top_districts) |>
+  mutate(month = floor_date(date, "month")) |>
+  count(NAME_2, month) |>
+  ggplot(aes(x = month, y = n)) +
+    geom_col(fill = "#2c5f7c") +
+    facet_wrap(~ NAME_2, ncol = 2) +
+    labs(x = "", y = "HPAI events",
+         title = "Monthly HPAI events by district (top 6)") +
+    theme_bw()
+```
+:::
+
+::: {.callout-important}
+## Exercise 4.1
+
+1. Do **different districts** have outbreaks in the **same months**, or do outbreaks "jump" between districts?
+2. If two neighbouring districts have outbreaks in the same month, what might that suggest about how HPAI is spreading?
+3. Are the 2024 outbreaks concentrated in the same districts as the 2017 outbreaks, or are they in different places?
+:::
+
+## 4.2 Have hotspots shifted over time?
+
+A simple way to see this: make two choropleths — one for the early period, one
+for the later period — and compare.
+
+::: {.callout-note collapse="true"}
+## Let's set up the data
+
+```{r sxt-eras}
+# Tag each event with an era
+hpai_sf <- hpai_sf |>
+  mutate(era = if_else(year(date) <= 2020, "2015-2020", "2021-2024"))
+
+# Count by district AND era — one column per era
+kerala_era <- kerala |>
+  mutate(
+    `2015-2020` = lengths(st_intersects(kerala, hpai_sf |> filter(era == "2015-2020"))),
+    `2021-2024` = lengths(st_intersects(kerala, hpai_sf |> filter(era == "2021-2024")))
+  )
+
+# Reshape wide -> long so we can facet on era.
+# pivot_longer() stacks the two era columns into a single 'outbreaks' column,
+# adding a new 'era' column that says which one each row came from.
+kerala_era_long <- kerala_era |>
+  pivot_longer(cols      = c(`2015-2020`, `2021-2024`),
+               names_to  = "era",
+               values_to = "outbreaks")
+
+# Side-by-side choropleths sharing one colour scale.
+# facet_wrap() makes one panel per value of 'era', so darker = more outbreaks
+# is directly comparable between the two periods.
+ggplot(kerala_era_long) +
+  geom_sf(aes(fill = outbreaks), colour = "white") +
+  scale_fill_distiller(palette   = "Reds",
+                       direction = 1,
+                       name      = "HPAI outbreaks") +
+  facet_wrap(~ era) +
+  labs(title = "HPAI outbreaks by district, two eras") +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(),
+    axis.text  = element_blank(),
+    axis.ticks = element_blank()
+  )
+```
+:::
+
+::: {.callout-important}
+## Exercise 4.2 — final discussion
+
+Pulling everything together, write 2–3 sentences answering each of the opening
+questions:
+
+1. **Where** in Kerala has HPAI been most reported?
+2. Is it **spatially clustered**?
+3. **When** do outbreaks occur — is there seasonality?
+4. Have the **hotspots shifted** over time?
+
+What would be your **top recommendation** to Kerala state veterinary services
+based on this analysis? (Where and when to focus surveillance, vaccination, or
+biosecurity messaging?)
+:::
+
+------------------------------------------------------------------------
+
+# Wrap-up
+
+You have just completed a full basic outbreak analysis covering:
+
+- Loading point data and converting it into a spatial object with a CRS.
+- Producing a point map and a choropleth.
+- Formally testing for spatial clustering with Moran's I.
+- Aggregating event-level data into a monthly time-series (and remembering to
+  fill in zero-months).
+- Visualising seasonality, running an STL decomposition, and examining the ACF.
+- Combining space and time to see whether outbreak hotspots shift.
+
+::: {.callout-tip}
+## This afternoon
+
+You'll apply exactly the same skills to the **rabies outbreak in MIMAROPA**
+dataset — this time with a worked solutions document available as a reference.
+The disease and country are different, but the questions and the workflow are
+the same.
+:::

@@ -1,0 +1,107 @@
+Event,Serotype,State,Locality,lat,lon,Diagnosis.status,Animal.type,species,date
+199532,H5N1 HPAI,Kerala,Alleppey,9.460415206,76.34,Confirmed,Domestic,Turkey,2015-01-28
+218137,H5N8 HPAI,Kerala,Thakazhy,9.22,76.5,Confirmed,Wild,Unspecified Bird,2016-10-26
+218538,H5N8 HPAI,Kerala,Ramankary,9.25,76.5,Confirmed,Wild,Unspecified Bird,2016-10-26
+221982,H5N8 HPAI,Kerala,Champakkulam,9.49508,76.40282,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221971,H5N8 HPAI,Kerala,Thalayazham,9.62228,76.64191,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221979,H5N8 HPAI,Kerala,Ambalapuzha North,9.49508,76.40282,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221981,H5N8 HPAI,Kerala,Arpookkara,9.62228,76.64191,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221980,H5N8 HPAI,Kerala,Aymanam,9.62228,76.64191,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221987,H5N8 HPAI,Kerala,Vechur,9.62228,76.64191,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221993,H5N8 HPAI,Kerala,Kumarakom,9.62228,76.64191,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221974,H5N8 HPAI,Kerala,Veliyanad,9.49508,76.40282,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221975,H5N8 HPAI,Kerala,Cheruthana,9.49508,76.40282,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221977,H5N8 HPAI,Kerala,Pallippad,9.49508,76.40282,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221992,H5N8 HPAI,Kerala,Ambalappuzha South,9.49508,76.40282,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221991,H5N8 HPAI,Kerala,Karuvatta,9.49508,76.40282,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221989,H5N8 HPAI,Kerala,Punnappra South,9.49508,76.40282,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221990,H5N8 HPAI,Kerala,Thalavady,9.49508,76.40282,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221988,H5N8 HPAI,Kerala,Purakkad,9.49508,76.40282,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221985,H5N8 HPAI,Kerala,Pulincunnu,9.49508,76.40282,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221986,H5N8 HPAI,Kerala,Chennithala,9.49508,76.40282,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221983,H5N8 HPAI,Kerala,Edathua,9.49508,76.40282,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221984,H5N8 HPAI,Kerala,Veeyapuram,9.49508,76.40282,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221978,H5N8 HPAI,Kerala,Nedumudy,9.49508,76.40282,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221972,H5N8 HPAI,Kerala,Neendoor,9.62228,76.64191,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221973,H5N8 HPAI,Kerala,Paippad,9.62228,76.64191,Confirmed,Domestic,Unspecified Bird,2017-01-12
+221976,H5N8 HPAI,Kerala,Neelamperoor,9.49508,76.40282,Confirmed,Domestic,Unspecified Bird,2017-01-12
+268619,H5N1 HPAI,Kerala,Abdul Majeed Outhiyottil Egger Nursery West Kodiyathur,11.278953,75.979224,Confirmed,Domestic,Chicken,2020-04-02
+268618,H5N1 HPAI,Kerala,Vengeri Kozhikkode Corporation,11.300482,75.797846,Confirmed,Domestic,Unspecified Bird,2020-04-02
+273278,H5N1 HPAI,Kerala,Beerankutty Valiya,11.2076,75.8204,Confirmed,Domestic,Unspecified Bird,2020-06-02
+286191,H5N8 HPAI,Kerala,Nedumudy,9.40136,76.36269,Confirmed,Domestic,Unspecified Bird,2021-01-09
+286192,H5N8 HPAI,Kerala,Thakazhy,9.3707,76.4115,Confirmed,Domestic,Unspecified Bird,2021-01-09
+286194,H5N8 HPAI,Kerala,Neendoor,9.671296,76.498461,Confirmed,Domestic,Unspecified Bird,2021-01-09
+286190,H5N8 HPAI,Kerala,Pallippad,9.2804,76.4819,Confirmed,Domestic,Unspecified Bird,2021-01-09
+286193,H5N8 HPAI,Kerala,Karuvatta,9.3107,76.4305,Confirmed,Domestic,Unspecified Bird,2021-01-09
+287630,H5N8 HPAI,Kerala,Kainakary,9.469263,76.366434,Confirmed,Domestic,Unspecified Bird,2021-02-01
+303606,H5N8 HPAI,Kerala,Kudavechoor,9.6603,76.4244,Confirmed,Domestic,Unspecified Bird,2021-09-21
+309176,H5N1 HPAI,Kerala,Madiyilakari  Thakazy  Champakulam,9.349968,76.40387,Confirmed,Domestic,Unspecified Bird,2021-12-16
+314120,H5N1 HPAI,Kerala,Nalupadam  Ambalapuzha(N),9.41768,76.36165,Confirmed,Domestic,Duck,2022-02-21
+314128,H5N1 HPAI,Kerala,Madanan  Vechoor Panchayat Kattamada,9.67966,76.4365,Confirmed,Domestic,Duck,2022-02-21
+314132,H5N1 HPAI,Kerala,Kanjipadam  Ambalapuzha(N),9.41099,76.37235,Confirmed,Domestic,Duck,2022-02-21
+314135,H5N1 HPAI,Kerala,Nalupadam  Ambalapuzha(N),9.30654,76.4685,Confirmed,Domestic,Duck,2022-02-21
+314122,H5N1 HPAI,Kerala,Ward No.1 Karuvatta,9.34567,76.40164,Confirmed,Domestic,Duck,2022-02-21
+314131,H5N1 HPAI,Kerala,Ward No. 3 Cheruthana,9.32432,76.45214,Confirmed,Domestic,Duck,2022-02-21
+314121,H5N1 HPAI,Kerala,Kallara Panchayat Vendhakary Kizhakkechira,9.723821,76.4415,Confirmed,Domestic,Duck,2022-02-21
+314137,H5N1 HPAI,Kerala,Nalupadam  Ambalapuzha(N),9.41715,76.35893,Confirmed,Domestic,Duck,2022-02-21
+314136,H5N1 HPAI,Kerala,Ward No. 1 Karuvatta,9.32893,76.40373,Confirmed,Domestic,Duck,2022-02-21
+314125,H5N1 HPAI,Kerala,Ward No 1 Karuvatta,9.34154,76.42215,Confirmed,Domestic,Duck,2022-02-21
+314127,H5N1 HPAI,Kerala,Ward No.1 Karuvatta,9.3421,76.4221,Confirmed,Domestic,Duck,2022-02-21
+314133,H5N1 HPAI,Kerala,Vechoor Panchayat Kattamada,9.67966,76.4365,Confirmed,Domestic,Duck,2022-02-21
+314126,H5N1 HPAI,Kerala,R Raghu  Ayamanam Panchayat  Ikarashala Paadashekharam,9.625587,76.478303,Confirmed,Domestic,Duck,2022-02-21
+314129,H5N1 HPAI,Kerala,Vechoor Panchayat Kattamada,9.67966,76.43651,Confirmed,Domestic,Duck,2022-02-21
+314124,H5N1 HPAI,Kerala,Vadakkepallippadam Kumarakom Panchayat,9.62082,76.43694,Confirmed,Domestic,Duck,2022-02-21
+314123,H5N1 HPAI,Kerala,Ward No. 1  Nedumudy,9.44113,76.39562,Confirmed,Domestic,Duck,2022-02-21
+314134,H5N1 HPAI,Kerala,Vadakkepallippadam  Kurarakom Panchayat,9.62082,76.43694,Confirmed,Domestic,Duck,2022-02-21
+314119,H5N1 HPAI,Kerala,Ward 12 Purakkad,9.33402,76.3865,Confirmed,Domestic,Duck,2022-02-21
+314130,H5N1 HPAI,Kerala,Vidynathan  Aymanam Panchayat  Ikarashala Paadashekharam,9.625587,76.478303,Confirmed,Domestic,Duck,2022-02-21
+335000,HPAI,Kerala,Vazhuthanam,9.29819,76.476344,Confirmed,Domestic,Duck,2022-10-22
+365553,H5N1 HPAI,Kerala,OB_126633 - WARD 14 KOCHUPARAMBIL  KAVANADY,9.515615,76.535319,Confirmed,Domestic,Unspecified Bird,2023-10-24
+365550,H5N1 HPAI,Kerala,OB_126630 - ICAR-KVK  ALAPPUZHA  CPCRI  KAYAMLULAM,9.1482,76.5134,Confirmed,Domestic,Unspecified Bird,2023-10-24
+365545,H5N1 HPAI,Kerala,OB_126625 - WRAD NO.8 PALLTHURUTHY,9.48992,76.364395,Confirmed,Domestic,Unspecified Bird,2023-10-24
+365555,H5N1 HPAI,Kerala,OB_126635 - WARD 9 NEDUMPURAM,9.36385,76.56018,Confirmed,Domestic,Unspecified Bird,2023-10-24
+365554,H5N1 HPAI,Kerala,OB_126634 - WARD NO. 24 THURUVALLA,9.370921,76.572023,Confirmed,Domestic,Unspecified Bird,2023-10-24
+365549,H5N1 HPAI,Kerala,OB_126629 - WARD 2  NEDUMPURAM,9.374,76.5294,Confirmed,Domestic,Unspecified Bird,2023-10-24
+365551,H5N1 HPAI,Kerala,OB_126631 - WARD 34 THIRUVALLA,9.382747,76.570442,Confirmed,Domestic,Unspecified Bird,2023-10-24
+365552,H5N1 HPAI,Kerala,OB_126632 - WARD NO. 38 THIRUVALLA MUNICIPALITY,9.39949,76.57128,Confirmed,Domestic,Unspecified Bird,2023-10-24
+365547,H5N1 HPAI,Kerala,OB_126627 - WARD NO. 6 PUNNAPRA SOUTH AMBALAPUZHA,9.432931,76.355535,Confirmed,Domestic,Unspecified Bird,2023-10-24
+365546,H5N1 HPAI,Kerala,OB_126626 - WARD NO.22 CHATHAMANGALAM,11.320969,75.93078,Confirmed,Domestic,Unspecified Bird,2023-10-24
+365548,H5N1 HPAI,Kerala,OB_126628 - WARD 11 KAVALAM  VELLYANAD,9.47033,76.457405,Confirmed,Domestic,Unspecified Bird,2023-10-24
+379461,H5N1 HPAI,Kerala,OB_134795 - KERALA 24 - WARD 1 EDATHUA  CHAMPAKULAM,9.411045,76.447921,Confirmed,Domestic,Unspecified Bird,2024-05-24
+379459,H5N1 HPAI,Kerala,OB_134797 - WARD 7 AMBALAPPUZHA NORTH,9.406405,76.356791,Confirmed,Domestic,Unspecified Bird,2024-05-24
+379458,H5N1 HPAI,Kerala,OB_134798 - WARD 4 THAKAZHY,9.384177,76.421358,Confirmed,Domestic,Unspecified Bird,2024-05-24
+379456,H5N1 HPAI,Kerala,OB_134800 - WARD 10 EDATHUA  CHAMPAKULAM,9.34491,76.46914,Confirmed,Domestic,Unspecified Bird,2024-05-24
+379460,H5N1 HPAI,Kerala,OB_134796 - WARD 3 CHERUTHANA,9.324581,76.452046,Confirmed,Domestic,Unspecified Bird,2024-05-24
+379457,H5N1 HPAI,Kerala,OB_134799 - WARD-20  ODETTY SOUTH PADASEKHARAM  VAZHAPALLY,9.44698,76.50346,Confirmed,Domestic,Unspecified Bird,2024-05-24
+392831,H5N1 HPAI,Kerala,144561WARD-10  KANJIKUZHY PANCHAYAT,9.602548,76.350493,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392820,H5N1 HPAI,Kerala,144583WARD 4  CHERTHALA MUNICIPALITY,9.694383,76.347261,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392823,H5N1 HPAI,Kerala,144580WARD 11  CHENNAM  PALLIPURAM LSGD,9.713189,76.365464,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392819,H5N1 HPAI,Kerala,144584WARD 5  PULIYOOR LSGD,9.713189,76.365464,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392813,H5N1 HPAI,Kerala,144590WARD 2  KADAKKARAPALLY,9.71798,76.29162,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392812,H5N1 HPAI,Kerala,144592WARD 12  CHENNAMPALLIPURAM,9.718402,76.341839,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392824,H5N1 HPAI,Kerala,144579WARD 15  CHENNAM PALLIPURAM LSGD,9.738372,76.348501,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392815,H5N1 HPAI,Kerala,144588WARD 16  CHENNAM  PALLIPURAM LSGD,9.745858,76.362488,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392817,H5N1 HPAI,Kerala,144586WARD 3  CHENNAM  PALLIPURAM LSGD,9.758895,76.356595,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392822,H5N1 HPAI,Kerala,144581WARD 3  CHENNAM  PALLIPURAM LSGD,9.76677,76.361519,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392825,H5N1 HPAI,Kerala,144577WARD 16  UDAYANAPURAM  LSGD,9.775354,76.383318,Confirmed,Domestic,Unspecified Bird,2024-12-14
+393000,H5N1 HPAI,Kerala,144549WARD-11  NIRANAM  PATHANAMTHITTA,9.2648,76.787,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392835,H5N1 HPAI,Kerala,144546WARD-11  THAZHAKKARA,9.215305,76.611319,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392816,H5N1 HPAI,Kerala,144587WARD 14  CHENNAM  PALLIPURAM LSGD,9.72648,76.354869,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392810,H5N1 HPAI,Kerala,144598WARD 1  VECHOOR,9.679822,76.417773,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392834,H5N1 HPAI,Kerala,144550WARD-3  CHAMPAKULAM,9.354627,76.484401,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392836,H5N1 HPAI,Kerala,144545WARD 13  THALVADY PANCHAYAT,9.44403,76.444133,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392821,H5N1 HPAI,Kerala,144582WARD 5  THANNEERMUKKAM LSGD,9.676385,76.37277,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392829,H5N1 HPAI,Kerala,144572WARD 16  CHERTHALA MUNICIPALITY,9.670847,76.348507,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392999,H5N1 HPAI,Kerala,144559WARD-9  MUHAMMA  MUHAMMA PANCHAYAT  ALAPPUZHA,9.49,76.33,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392814,H5N1 HPAI,Kerala,144589WARD 2 KANJIKUZHY,9.663969,76.357365,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392811,H5N1 HPAI,Kerala,144594WARD 10  VECHOOR,9.663695,76.414395,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392828,H5N1 HPAI,Kerala,144573WARD 11  CHERTHALA SOUTH,9.655053,76.326774,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392827,H5N1 HPAI,Kerala,144574WARD 1  MAHUAMMA PANCHAYAT,9.642812,76.365919,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392818,H5N1 HPAI,Kerala,144585WARD 18  MARARIKULAM SOUTH LSGD,9.55781,76.314399,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392826,H5N1 HPAI,Kerala,144575WARD 23  MANNANCHERY,9.582173,76.330633,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392838,H5N1 HPAI,Kerala,144542WARD 9 AMBALAPUZHA NORTH  AMBALAPUZHA  ALAPPUZHA,9.39758,76.68308,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392833,H5N1 HPAI,Kerala,144553REGIONAL POULTRY FARM  WARD-13  MANARCAUD,9.583135,76.582953,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392832,H5N1 HPAI,Kerala,144557ETTIYAKARI PADAM  WARD-1  PAIPPAD,9.407447,76.511221,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392809,H5N1 HPAI,Kerala,144566WARD-2  CHUMATHRA,9.410551,76.569621,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392837,H5N1 HPAI,Kerala,144543GOVERNMENT DUCK FARM WARD-6  NIRANAM,9.3426,76.5137,Confirmed,Domestic,Unspecified Bird,2024-12-14
+392830,H5N1 HPAI,Kerala,144567WARD 15  CHERTHALA MUNCIPALITY,9.67017,76.348898,Confirmed,Domestic,Unspecified Bird,2024-12-14
