@@ -74,6 +74,8 @@ Code is folded but available via the **Show code** button.
 ::: {.callout-note collapse="true"}
 ## import and process the data for plotting
 
+---
+
 ```{r setup}
 library(tidyverse)
 library(lubridate)
@@ -92,14 +94,6 @@ head(dat_outbreak) # look to identify what columns are in the data
 
 dat_outbreak <- dat_outbreak %>% mutate(date = dmy(date)) # reformat the dates
 
-# Create monthly breaks 
-monthly_breaks <- seq.Date(
-  from = floor_date(min(dat_outbreak$date - 60, na.rm = TRUE), "month"),
-  to   = ceiling_date(max(dat_outbreak$date), "month"),
-  by   = "month"
-) - 1 
-monthly_breaks  # print out the object - is it creating what you want?
-
 ```
 
 :::
@@ -107,7 +101,7 @@ monthly_breaks  # print out the object - is it creating what you want?
 
 ## Describing the outbreak:
 
-### .1 Epidemic curve 
+### Epidemic curve 
 
 Monthly reported animal rabies cases (confirmed and probable) and human rabies deaths in Oriental Mindoro, Romblon, Marinduque and Occidental Mindoro are presented in a time series.
 
@@ -118,41 +112,46 @@ Monthly reported animal rabies cases (confirmed and probable) and human rabies d
 dat_outbreak_trun <- dat_outbreak %>% 
   filter(date >= "2023-06-30" & date < "2024-12-31") # Work out how to show different time windows
 
-# now create monthly breaks for a truncated period
+# create monthly breaks for the period of interest
 monthly_breaks_trun <- seq.Date(
   from = floor_date(min(dat_outbreak_trun$date, na.rm = TRUE), "month"),
   to   = ceiling_date(max(dat_outbreak_trun$date), "month"),
   by   = "month"
-) - 1
+) - 1 
+# print out this object (monthly_breaks_trun) - is it creating what you want?
  
 # Set the colour palettes used for plots
 pal_status <- c("Human Death"        = "#A3003F",
                 "Probable (Animal)"  = "#E59500",
                 "Confirmed (Animal)" = "#3C8590")
 
-
 # Now create a timeseries of these data
-ggplot(dat_outbreak_trun, # indicate the data set you plan to use
-       aes(x = date, fill = case_status_fct)) + # set the x-axis and fill colour for the stacked bars
-  geom_histogram(breaks = monthly_breaks_trun, col = "white") + # format the histogram with monthly breaks and white borders
-  scale_x_date(expand = c(0, 0), date_breaks = "3 months", date_labels = "%b %Y") + # format the x-axis - show every 3 months and label month and year
-  scale_fill_manual(values = pal_status) + # set the fill colours for the different case types
+ggplot(dat_outbreak_trun, # indicate the data you are plotting from
+       aes(x = date, fill = case_status_fct)) + # set the x-axis & fill colours for the stacked bars
+  geom_histogram(breaks = monthly_breaks_trun, col = "white") + # format histogram with monthly breaks & white borders
+  scale_x_date(expand = c(0, 0), date_breaks = "3 months", date_labels = "%b %Y") + # format the x-axis - every 3 months add label for the month and year
+  scale_fill_manual(values = pal_status) + # add colours for the different case types
   labs(y = "Number of cases", x = "", fill = "") + # add labels for the y-axis and legend
-  theme_bw() + # set the theme to black and white
-  theme(axis.text.x  = element_text(angle = 40, vjust = 0.5), # format the x-axis text to be angled and vertically justified
+  theme_bw() + # Use the black and white theme
+  theme(axis.text.x  = element_text(angle = 40, vjust = 0.5), # format the x-axis text - angled & vertically justified
         legend.position = "top") # set the legend position to the top of the plot
+
 ```
 
-### .2 Locations of cases
+### Locations of cases
 
 The spatial distribution of all these cases are mapped. Human deaths are 
 shown as triangles, whilst animal cases are shown as circles.
 
-```{r map, fig.width=6, fig.height=6}
+```{r map, fig.width=5, fig.height=5}
 
 ## Geographic data for mapping
 municipality <- st_read(here("data", "gis"), layer = "PHL_municipality", quiet = TRUE)
 village_loc  <- read.csv(here("data/gis", "PHL_village_centroids.csv"))
+
+# what type of objects are the different municipality and village location files? 
+# hint - use class() and dim() commands!
+# do you know why these objects are so large?
 
 # Attach coordinates
 village_loc_filt <- village_loc %>% # filter the village_loc data to only include the provinces of interest
@@ -160,10 +159,10 @@ village_loc_filt <- village_loc %>% # filter the village_loc data to only includ
 # this is quite a complex operation! you can explore how it works later, but basically it is filtering the Loc_ID column to only include those that start with the province names of interest
 
 # Now join the coordinates to the outbreak data
-dat_mapped <- dat_outbreak_trun %>% # create a new dataframe (dat_mapped) that contains the outbreak data and coordinates
+dat_mapped <- dat_outbreak_trun %>% # create a new dataframe (dat_mapped) with the outbreak data and coordinates
   mutate(loc_id = paste(province, municipality, barangay, sep = "-")) %>% # create a column (loc_id) that combines the province, municipality and barangay columns
   left_join(select(village_loc_filt, Loc_ID, Latitude, Longitude), 
-            by = c("loc_id" = "Loc_ID")) # join the datasets (village_loc_filt, & the outbreak data) using the loc_id column
+            by = c("loc_id" = "Loc_ID")) # join the datasets (village_loc_filt & the outbreak data) using the loc_id column
             
 municipality_df <- municipality %>%
   filter(NAME_1 %in% province_names) # filter the municipality data to only include the provinces of interest
@@ -173,38 +172,156 @@ pal_type   <- c("Human" = "#A3003F",
                 "Animal" = "#3C8590")
 
 # Now create the map
-ggplot() +
-  geom_sf(data = municipality_df, alpha = 0, colour = "dimgrey", linewidth = 0.4) + # municipality boundaries in grey outline
-  geom_point( 
-    data = dat_mapped, # use the dat_mapped dataframe for the points
-    aes(x = Longitude, y = Latitude, # set the x and y coordinates for the points (human and animal cases)
-        colour = case_type, shape = case_type, alpha = case_type), # set the colour, shape and transparency of the points based on the case type
-    position = position_jitter(h = 0.01, w = 0.01), # add some jitter to the points to avoid overlap
+ggplot() + # municipality boundaries in grey outline:
+  geom_sf(data = municipality_df, alpha = 0, colour = "dimgrey", linewidth = 0.4) + 
+  geom_point( # use the dat_mapped dataframe for the points
+    data = dat_mapped, 
+    aes(x = Longitude, y = Latitude, # set x and y coordinates for the human and animal cases
+        colour = case_type, shape = case_type, alpha = case_type), # set the colour, shape and transparency attributes for human vs animal cases
+    position = position_jitter(h = 0.01, w = 0.01), # add some jitter to avoid overlapping points
     size = 2 # set the size of the points
   ) +
-  scale_colour_manual(values = pal_type) + #  
-  scale_shape_manual(values  = c("Human" = 17, "Animal" = 16)) + # set the point shape for human & animal cases (triangle, circle)
-  scale_alpha_manual(values  = c("Human" = 1,  "Animal" = 0.6)) + # set the transparency for points (human = 1, animal = 0.6)
+  scale_colour_manual(values = pal_type) +   
+  scale_shape_manual(values  = c("Human" = 17, "Animal" = 16)) + # set the point shape for human vs animal cases (triangle, circle)
+  scale_alpha_manual(values  = c("Human" = 1,  "Animal" = 0.6)) + # set the transparency for human vs animal cases
   labs(colour = "", shape = "", alpha = "") + 
-  # annotate provinces manually as the labels are not in the shapefile
-  annotate("text", x = c(122.4,122.4,121.3,120.5), 
+  # annotate province names manually (you may want to do this for other settings too!)
+  annotate("text", x = c(122.4,122.4,121.3,120.5), # define x,y coordinates and add text labels
            y = c(12.3,13.4,13.6,12.7), 
            label = c("Romblon","Marinduque","Oriental Mindoro","Occidental Mindoro"), 
            size = c(3,3,3,3)) +
   theme_minimal(base_size = 13) + 
-  theme(legend.position  = c(0.85, 0.85),
+  theme(legend.position  = "inside", legend.position.inside = c(0.85, 0.85),
         panel.grid.major = element_blank(),
         axis.text        = element_blank(),
         axis.title       = element_blank())
+
+
+
 ```
 
 
 ---
 
+### Take a closer look at the extended epidemic curve(s) for the region
+
+Monthly reported animal cases (confirmed and probable) and human deaths in Oriental Mindoro, Romblon, Marinduque and Occidental Mindoro including all data from 2019 - 2026
+
+
+```{r epi-curve-region, fig.width=9, fig.height=3.5}
+
+# Filter out Occidental Mindoro province and focus on the 3 provinces with IBCM in place since 2020
+dat_outbreak_provinces <- dat_outbreak %>%
+  filter(province != "Occidental Mindoro") %>%
+  filter(date >= ymd("2020-01-01") & date <= ymd("2026-01-01"))
+
+monthly_breaks <- seq.Date(
+  from = floor_date(min(dat_outbreak_provinces$date, na.rm = TRUE), "month"),
+  to   = ceiling_date(max(dat_outbreak_provinces$date), "month"),
+  by   = "month"
+) - 1
+
+# Now create the epidemic curve for the full period 
+ggplot(dat_outbreak_provinces, aes(x = date, fill = case_status_fct)) +
+  geom_histogram(breaks = monthly_breaks, col = "white") +
+  scale_x_date(expand = c(0, 0), date_breaks = "3 months", date_labels = "%b %Y") +
+  scale_fill_manual(values = pal_status) +
+  labs(y = "Number of cases", x = "", fill = "") +
+  theme_bw() +
+  theme(axis.text.x     = element_text(angle = 40, vjust = 0.5),
+        legend.position = "top")
+```
+
+### Plot the epidemic curve by province
+
+```{r epi-curve-facet, fig.width=9, fig.height=8}
+# Now create the epidemic curve for the full outbreak data and *facet* by province
+ggplot(dat_outbreak_provinces, aes(x = date, fill = case_status_fct)) +
+  geom_histogram(breaks = monthly_breaks, col = "white") +
+  scale_x_date(expand = c(0, 0), date_breaks = "4 months", date_labels = "%b %Y") +
+  scale_fill_manual(values = pal_status) +
+  facet_wrap(~province, ncol = 1) + # facet by province and arrange in 1 column
+  labs(y = "Number of cases", x = "", fill = "",
+       title = "Reported rabies cases by province") +
+  theme_bw() +
+  theme(axis.text.x     = element_text(angle = 40, vjust = 0.5),
+        legend.position = "top",
+        strip.background = element_rect(fill = "#f0f0f0"),
+        strip.text       = element_text(face = "bold"))
+```
+
+### Look at the locations of cases across the years
+
+Spatial distribution of all cases from 2019 to 2025. Human deaths are
+shown as triangles, whilst animal cases are shown as circles.
+
+```{r map-region, fig.width=9, fig.height=9}
+
+# Attach coordinates
+village_loc_filt <- village_loc %>%
+  filter(str_starts(Loc_ID, paste(paste0(province_names, "-"), collapse = "|")))
+
+# Now join the coordinates to the outbreak data
+dat_mapped <- dat_outbreak_provinces %>%
+  mutate(loc_id = paste(province, municipality, barangay, sep = "-")) %>%
+  left_join(select(village_loc_filt, Loc_ID, Latitude, Longitude),
+            by = c("loc_id" = "Loc_ID"))
+
+# Filter municipality data for the provinces of interest
+municipality_df <- municipality %>%
+  filter(NAME_1 %in% province_names) 
+
+# Now create the map of cases for the provinces of interest
+ggplot() +
+  geom_sf(data = municipality_df, alpha = 0, colour = "dimgrey", linewidth = 0.4) +
+  # add points for human and animal cases with jitter to avoid overlap
+  geom_point(
+    data = dat_mapped,
+    aes(x = Longitude, y = Latitude,
+        colour = case_type, shape = case_type, alpha = case_type),
+    position = position_jitter(h = 0.01, w = 0.01),
+    size = 2
+  ) +
+    facet_wrap(~ year) + # make a map for every year
+  scale_colour_manual(values = pal_type) +
+  scale_shape_manual(values  = c("Human" = 17, "Animal" = 16)) +
+  scale_alpha_manual(values  = c("Human" = 1,  "Animal" = 0.7)) +
+  labs(colour = "", shape = "", alpha = "") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position  = "bottom",
+        panel.grid.major = element_blank(),
+        axis.text        = element_blank(),
+        axis.title       = element_blank())
+
+```
+
+
 ## How did the epidemiological situation evolve in each province?
 
 Looking at the epidemic curve by province reveals whether provinces were affected
 simultaneously or sequentially — this is important for understanding routes of disease spread and the timing of introduction events
+
+
+::: {.callout-tip}
+## Using your R skills work through the data in your Provincial groups!
+
+
+Add the data on mass dog vaccination campaigns to help with your interpretation
+
+---
+
+```{r mdv}
+
+# Import the mdv data sets
+mdv_summary <- read.csv(here("data", "epi", "mdv_summary.csv"))
+mdv_rolling  <- read_csv(here("data", "epi", "rolling_vac_cov_yr.csv"))
+
+```
+
+:::
+
+
+---
 
 ### Oriental Mindoro
 
@@ -215,57 +332,19 @@ simultaneously or sequentially — this is important for understanding routes of
 > - Roughly 1 person is bitten every 3 rabid dogs. Of people bitten, 90% get PEP. Of the 10% that don't get PEP, 20% will develop rabies and die. How does this change your interpretation of the early outbreak period?
 > - How does the most recent human death in April 2026 (look at the 2026 map!) change your interpretation of what is happening in Oriental Mindoro? 
 
-```{r epi-curve-ormin, fig.width=9, fig.height=3.5}
-
-# Import the mass dog vaccination data to include in the plots
-mdv_summary <- read.csv(here("data", "epi", "mdv_summary.csv"))
-mdv_rolling <- read_csv(here("data", "epi", "rolling_vac_cov_yr.csv"))
-
-# Filter MDV data for Oriental Mindoro and create a date column
-mdv_ormin <- mdv_summary %>%
-  filter(region == "Ormin") %>%
-  mutate(
-    date_start = dmy(paste("01", month, year)),
-    date_end   = date_start + days(30)
-  )
-
-# Filter outbreak data for Oriental Mindoro
-dat_outbreak %>%
-  filter(province == "Oriental Mindoro") %>%
-  ggplot(aes(x = date, fill = case_status_fct)) + # stacked barplot with date on x-axis and fill colour based on case status
-  # add rectangles to indicate the timing of mass dog vaccination campaigns
-  geom_rect( 
-    data = mdv_ormin,
-    aes(xmin = date_start, xmax = date_end, ymin = 0, ymax = Inf, fill = "grey70"),
-    inherit.aes = FALSE,
-    alpha = 0.3
-  ) +
-  # add histogram of cases with monthly breaks and white borders
-  geom_histogram(breaks = monthly_breaks, col = "white") +
-  scale_x_date(expand = c(0, 0), date_breaks = "4 months", date_labels = "%b %Y") +
-  scale_fill_manual(
-    values = c(pal_status)
-  ) +
-  # add labels for the y-axis, x-axis and legend
-  labs(y = "Number of cases", x = "", fill = "") +
-  theme_bw() +
-  theme(
-    axis.text.x      = element_text(angle = 40, vjust = 0.5),
-    legend.position  = "top",
-    strip.background = element_rect(fill = "#f0f0f0"),
-    strip.text       = element_text(face = "bold")
-  )
-
-```
-*Dates of mass dog vaccination campaigns are shown in grey (a campaign is defined as >700 dogs vaccinated in a municipality in a month)*
-
 #### How do human cases compare to animal cases in Oriental Mindoro?
+
+You will need to filter the outbreak data for Oriental Mindoro province and use the facet command to split these data according to human and animal cases.
+
+::: {.callout-tip collapse="true"}
+## Show solution
+
 
 ```{r epi-curve-facet-ormin, fig.width=9, fig.height=5}
 
 # Filter outbreak data for Oriental Mindoro and create a histogram of cases with monthly breaks and white borders, 
 # facet by case type (human or animal)
-dat_outbreak %>% 
+dat_outbreak_provinces %>% 
   filter(province == "Oriental Mindoro") %>% 
 ggplot(aes(x = date, fill = case_status_fct)) +
   geom_histogram(breaks = monthly_breaks, col = "white") +
@@ -278,9 +357,60 @@ ggplot(aes(x = date, fill = case_status_fct)) +
         legend.position = "top",
         strip.background = element_rect(fill = "#f0f0f0"),
         strip.text       = element_text(face = "bold"))
+
 ```
+:::
+
+#### What impact do you think the mass dog vaccination campaigns had on rabies transmission?
+
+Overlay the mass dog vaccination data to the timeseries plot. The mass dog vaccination data will need filtering too!
+
+::: {.callout-tip collapse="true"}
+## Show solution
+```{r epi-curve-ormin, fig.width=9, fig.height=3.5}
+
+# Filter MDV data for Oriental Mindoro and create a date column
+mdv_ormin <- mdv_summary %>%
+  filter(region == "Ormin") %>%
+  mutate(
+    date_start = dmy(paste("01", month, year)),
+    date_end   = date_start + days(30)
+  )
+
+# Filter outbreak data for Oriental Mindoro
+dat_outbreak_provinces %>%
+  filter(province == "Oriental Mindoro") %>%
+  ggplot(aes(x = date, fill = case_status_fct)) + # stacked barplot with date on x-axis and colour based on case status
+  # add rectangles to indicate the timing of mass dog vaccination campaigns
+  geom_rect( 
+    data = mdv_ormin,
+    aes(xmin = date_start, xmax = date_end, ymin = 0, ymax = Inf, fill = "grey70"),
+    inherit.aes = FALSE,
+    alpha = 0.3
+  ) +
+  # add histogram of cases with monthly breaks and white borders
+  geom_histogram(breaks = monthly_breaks, col = "white") +
+  scale_x_date(expand = c(0, 0), date_breaks = "4 months", date_labels = "%b %Y") +
+  scale_fill_manual(values = c(pal_status)) +
+  # add labels for the y-axis, x-axis and legend
+  labs(y = "Number of cases", x = "", fill = "") +
+  theme_bw() +
+  theme(
+    axis.text.x      = element_text(angle = 40, vjust = 0.5),
+    legend.position  = "top",
+    strip.background = element_rect(fill = "#f0f0f0"),
+    strip.text       = element_text(face = "bold")
+  )
+
+```
+::: 
 
 #### Does the distribution of cases over time and across municipalities suggest any gaps in surveillance (from the health or animal health perspective)?
+
+Try joining the Oriental mindoro data with municipality vaccination data - it is a little bit tricky!
+
+::: {.callout-tip collapse="true"}
+## Show solution
 
 ```{r map-ormin, fig.width=13, fig.height=13}
 
@@ -336,6 +466,9 @@ ggplot() +
 ```
 *Note: some vaccination has occurred in 2026, however this data has not yet been released*
 
+:::
+
+---
 
 ### Romblon
 
@@ -349,6 +482,12 @@ ggplot() +
 
 
 #### How does the outbreak look in Romblon if we break this down by island?
+
+You will need to filter the outbreak data to Romblon Province.
+Overlay the mass dog vaccination data to the timeseries plot. The mass dog vaccination data will need filtering too!
+
+::: {.callout-tip collapse="true"}
+## Show solution
 
 ```{r epi-curve-romblon, fig.width=9, fig.height=5}
 
@@ -394,6 +533,14 @@ ggplot(aes(x = date, fill = case_status_fct)) +
 ```
 *Dates of mass dog vaccination campaigns are shown in grey (MDV campaign defined as >700 dogs vaccinated in a municipality in a month)*
 
+:::
+
+#### Can you show the epidemic curves for each of Romblon's islands?
+
+Use the facet command to split up the data by island
+
+::: {.callout-tip collapse="true"}
+## Show solution
 
 ```{r epi-curve-island, fig.width=9, fig.height=7}
 # Now create the epidemic curve for Romblon with rectangles indicating the timing of mass dog vaccination campaigns, 
@@ -411,10 +558,19 @@ ggplot(aes(x = date, fill = case_status_fct)) +
         strip.background = element_rect(fill = "#f0f0f0"),
         strip.text       = element_text(face = "bold"))
 ```
+::: 
 
-#### Spatial distributions of human and animal rabies cases in Romblon by year
 
-```{r map-romblon, fig.width=13, fig.height=11}
+#### What does the spatiotemporal distribution of these cases suggest about how rabies spread across the province?
+
+Try mapping these cases by year. Use facet_wrap again!
+The islands of interest are Tablas, Sibuyan and Corcuera. You'll need to look at the maps to think about where to put the island labels!
+Start by mapping the municipality dataframe to show the vaccination coverage across the municipalities. This is a bit tricky.
+
+::: {.callout-tip collapse="true"}
+## Show solution
+
+```{r map-romblon, fig.width=10, fig.height=10}
 # Attach coordinates to outbreak data for Romblon
 dat_mapped <- dat_outbreak %>%
   mutate(
@@ -453,6 +609,12 @@ ggplot() +
   scale_shape_manual(values  = c("Human" = 17, "Animal" = 16)) +
   scale_alpha_manual(values  = c("Human" = 1,  "Animal" = 0.8)) +
   facet_wrap(~ year) +
+  
+  # # annotate provinces manually as the labels are not in the shapefile
+  # annotate("text", x = c(122.2), y = c(12.3), label = c("Tablas"), size = c(3)) +
+  # annotate("text", x = c(122.6), y = c(12.55), label = c("Sibuyan"), size = c(3)) +
+  # annotate("text", x = c(122.2), y = c(12.8), label = c("Corcuera"), size = c(3)) +
+
   labs(
     colour = "", shape = "", alpha = "" ) +
   theme_minimal(base_size = 13) +
@@ -463,8 +625,13 @@ ggplot() +
     axis.title       = element_blank(),
     strip.text       = element_text(face = "bold")
   )
+
 ```
 *Note: some vaccination has occurred in 2026, however this data has not yet been released*
+
+::: 
+
+---
 
 ### Marinduque
 
@@ -476,6 +643,13 @@ ggplot() +
 > - How does the outbreak in Marinduque compare to the outbreaks in Oriental mindoro and Romblon provinces?
 > - How does the human death in Dec 2025 impact your interpretation?
 
+#### What impact do you think the mass dog vaccination campaigns had on rabies transmission?
+
+You will need to filter the outbreak data to Marinduque Province.
+Overlay the mass dog vaccination data to the timeseries plot. The mass dog vaccination data will need filtering too!
+
+::: {.callout-tip collapse="true"}
+## Show solution
 
 ```{r epi-curve-marin, fig.width=9, fig.height=4}
 
@@ -523,9 +697,23 @@ ggplot(aes(x = date, fill = case_status_fct)) +
 ```
 *Dates of mass dog vaccination campaigns are shown in grey (a campaign defined as >700 dogs vaccinated in a municipality in a month)*
 
+::: 
+
+#### What do you think the prospects are for Marinduque eliminating rabies from the province?
+
+Try mapping these cases by year. Use facet_wrap again!
+Start by mapping the municipality dataframe to show the vaccination coverage across the municipalities. This is a bit tricky.
+
+Elimination requires interruption of rabies transmission in domestic dogs.
+What do you think about the quality of rabies surveillance on Marinduque? 
+Can you be confident that when you are no longer seeing dog rabies cases, that rabies has been eliminated? or do you think that an absence of detected rabies cases just reflects weak surveillance?
+Also remember that the incubation period for rabies is on average around one month, but can sometimes be several months long. What does this mean for being confident that rabies has gone?
 
 
-```{r map-marin, fig.width=13, fig.height=11}
+::: {.callout-tip collapse="true"}
+## Show solution
+
+```{r map-marin, fig.width=12, fig.height=5}
 
 # Attach coordinates to outbreak data for Marinduque
 dat_mapped <- dat_outbreak %>%
@@ -565,7 +753,7 @@ ggplot() +
   scale_colour_manual(values = pal_type) +
   scale_shape_manual(values  = c("Human" = 17, "Animal" = 16)) +
   scale_alpha_manual(values  = c("Human" = 1,  "Animal" = 0.8)) +
-  facet_wrap(~ year, ncol = 2) + # make a map for every year and arrange them in 2 columns
+  facet_wrap(~ year, ncol = 4) + # make a map for every year and arrange them in columns - there are 4 years of cases
   labs(
     colour = "", shape = "", alpha = "" ) +
   theme_minimal(base_size = 13) +
@@ -578,10 +766,20 @@ ggplot() +
   )
 ```
 *Note: some vaccination has occurred in 2026, however this data has not yet been released*
+::: 
+
 
 ---
 
-## Providing the regional context
+## Now lets think about what all this means across the MIMAROPA region
+
+::: {.callout-tip}
+## Some useful background!
+Rabies is spread by the bite of an infected rabid animal and is **invariably** fatal! This is why post-exposure vaccination (PEP) is needed immediately after a rabid dog bite. If a bite victim only attends a hospital after showing signs of rabies it is too late. But only *around one in 5 rabid dog bite victims will develop rabies* if unvaccinated. So for every unlucky rabies patient, four other rabid bite victims will get lucky and survive without developing rabies.
+
+Usually only around one in 3 rabid dogs bite people; a few of these will bite a lot, but many will bite 1 or 2 people. Remember that surveillance only ever provides a partial picture, of the cases observed or confirmed through sample collection, laboratory testing and official reporting. Can you think of reasons why rabid dogs may not be counted? and what about human rabies cases?
+
+:::
 
 > **Key questions and things to explore:**
 >
@@ -590,106 +788,27 @@ ggplot() +
 > - What do you think are the triggers of outbreak responses?
 > - Why do the ratios of human to animal cases differ in the three provinces?
 
-### Extended epidemic curve 
-
-Monthly reported animal cases (confirmed and probable) and human deaths in Oriental Mindoro, Romblon, Marinduque and Occidental Mindoro including all data from 2019 - 2026
-
-```{r epi-curve-region, fig.width=9, fig.height=3.5}
-# Create monthly breaks for the full outbreak data
-monthly_breaks <- seq.Date(
-  from = floor_date(min(dat_outbreak$date - 60, na.rm = TRUE), "month"),
-  to   = ceiling_date(max(dat_outbreak$date), "month"),
-  by   = "month"
-) - 1
-
-# Now create the epidemic curve for the full outbreak data with rectangles indicating the timing of mass dog vaccination campaigns
-ggplot(dat_outbreak, aes(x = date, fill = case_status_fct)) +
-  geom_histogram(breaks = monthly_breaks, col = "white") +
-  scale_x_date(expand = c(0, 0), date_breaks = "3 months", date_labels = "%b %Y") +
-  scale_fill_manual(values = pal_status) +
-  labs(y = "Number of cases", x = "", fill = "") +
-  theme_bw() +
-  theme(axis.text.x     = element_text(angle = 40, vjust = 0.5),
-        legend.position = "top")
-```
-
-### Epidemic curve by province
-
-```{r epi-curve-facet, fig.width=9, fig.height=8}
-# Now create the epidemic curve for the full outbreak data with rectangles indicating the timing of mass dog vaccination campaigns, facet by province
-ggplot(dat_outbreak, aes(x = date, fill = case_status_fct)) +
-  geom_histogram(breaks = monthly_breaks, col = "white") +
-  scale_x_date(expand = c(0, 0), date_breaks = "4 months", date_labels = "%b %Y") +
-  scale_fill_manual(values = pal_status) +
-  facet_wrap(~province, ncol = 1) + # facet by province and arrange in 1 column
-  labs(y = "Number of cases", x = "", fill = "",
-       title = "Reported rabies cases by province") +
-  theme_bw() +
-  theme(axis.text.x     = element_text(angle = 40, vjust = 0.5),
-        legend.position = "top",
-        strip.background = element_rect(fill = "#f0f0f0"),
-        strip.text       = element_text(face = "bold"))
-```
-
-### Regional location of cases
-
-Spatial distribution of all cases from 2019 to 2026. Human deaths are
-shown as triangles, whilst animal cases are shown as circles.
-
-```{r map-region, fig.width=9, fig.height=9}
-
-# Attach coordinates
-village_loc_filt <- village_loc %>%
-  filter(str_starts(Loc_ID, paste(paste0(province_names, "-"), collapse = "|")))
-
-# Now join the coordinates to the outbreak data
-dat_mapped <- dat_outbreak %>%
-  mutate(loc_id = paste(province, municipality, barangay, sep = "-")) %>%
-  left_join(select(village_loc_filt, Loc_ID, Latitude, Longitude),
-            by = c("loc_id" = "Loc_ID"))
-
-# Filter municipality data for the provinces of interest
-municipality_df <- municipality %>%
-  filter(NAME_1 %in% province_names) 
-
-# Now create the map of cases for the provinces of interest
-ggplot() +
-  geom_sf(data = municipality_df, alpha = 0, colour = "dimgrey", linewidth = 0.4) +
-  # add points for human and animal cases with jitter to avoid overlap
-  geom_point(
-    data = dat_mapped,
-    aes(x = Longitude, y = Latitude,
-        colour = case_type, shape = case_type, alpha = case_type),
-    position = position_jitter(h = 0.01, w = 0.01),
-    size = 2
-  ) +
-    facet_wrap(~ year) + # make a map for every year
-  scale_colour_manual(values = pal_type) +
-  scale_shape_manual(values  = c("Human" = 17, "Animal" = 16)) +
-  scale_alpha_manual(values  = c("Human" = 1,  "Animal" = 0.7)) +
-  labs(colour = "", shape = "", alpha = "") +
-  theme_minimal(base_size = 13) +
-  theme(legend.position  = "bottom",
-        panel.grid.major = element_blank(),
-        axis.text        = element_blank(),
-        axis.title       = element_blank())
-
-```
 
 ### How do human deaths compare with animal cases?
 
 A critical question is whether surveillance is sufficient. If we have areas where human deaths occur 
-with relatively few reported animal cases this would suggest under-reporting
-of animal cases. Therefore, the annual incidence and the ratio of human deaths to animal cases may provide an indication of the surveillance sensitivity and reporting.
+with relatively few reported animal cases this would suggest under-reporting of animal cases. 
+Therefore, the annual incidence and the ratio of human deaths to animal cases may provide an indication of the surveillance sensitivity and reporting.
+Try working through the rest of this optional code and see what you learn in the process:
 
 
 #### Ratio of human deaths to animal cases
 
-How do the ratios of human deaths to animal cases vary across provinces? 
-What do these suggest about the surveillance strength?
+Calculate the ratios of human deaths to animal cases across the provinces?
+What do these suggest about how the quality of surveillance varies across the different provinces?
+
+::: {.callout-tip collapse="true"}
+## Show solution
 
 ```{r ratio-table}
-tbl_ratio <- dat_outbreak %>%
+
+# Create an object for tabulating the province data by animal cases and human deaths
+tbl_ratio <- dat_outbreak_provinces %>%
   group_by(province) %>%
   summarise(
     Animal_cases  = sum(case_type == "Animal"),
@@ -702,13 +821,13 @@ tbl_ratio <- dat_outbreak %>%
          `Human deaths`         = Human_deaths,
          `Deaths per 100 animal cases` = Deaths_per_100_animal)
 
+# This code creates a table for either the html or pdf outputs - its not necessary for your calculations though:
 if (knitr::is_html_output()) {
   reactable(tbl_ratio, striped = TRUE, highlight = TRUE, pagination = FALSE)
-} else {
-  knitr::kable(tbl_ratio)
-}
-```
+} else { knitr::kable(tbl_ratio) }
 
+```
+::: 
 
 ### Is rabies an emerging infectious disease threat or a neglected disease of poverty?
 Rabies can be viewed as an emerging disease that can cause outbreaks in areas where it was previously absent. But it is also a disease that is entirely vaccine-preventable, that can be eliminated through dog vaccination, whilst human deaths only occur if people at-risk do not access emergency life-saving vaccines after an exposure.
@@ -732,7 +851,10 @@ What are the obstacles to achieving this best case outcome? and what can be done
 
 #### Incidence of human deaths and animal cases
 
-Calculating the annual incidence of human deaths and animal cases by province
+Calculate the annual incidence of human deaths and animal cases by province.
+
+::: {.callout-tip collapse="true"}
+## Show solution
 
 ```{r incidence-table}
 # Population data by province
@@ -827,7 +949,7 @@ if (knitr::is_html_output()) {
 
 
 ```
-
+::: 
 
 #### How does the annual incidence extrapolate? 
 
@@ -872,6 +994,14 @@ if (knitr::is_html_output()) {
 
 ```
 
+> **What else can help you to understand what is happening with rabies across MIMAROPA?:**
+>
+> - Sequencing of rabies cases from these provinces reveals important information for understanding rabies spread:
+> - Cases in Oriental Mindoro are closely related to one another, and distinct from rabies viruses circulating in the other provinces. The cases in Romblon province (Tablas Island) are most closely related to rabies viruses from Region 4A. They cluster into 3 distinct groups suggesting 3 seperate introductions from Region 4A. Cases on Sibuyan and Corcuera islands in Romblon province are most closely related to cases from one of the Tablas island clusters.
+Cases in Marinduque are closely related to one another and appear to have a single ancestor from Region 4A. 
+> - Given this inter-island and inter-regional rabies spread, what recommendations do you have about coordinating control measures and communications for sensitizing communities?
+
+> **Based on all the available evidence, what would you recommend the municipal, provincial, regional and national One Health teams do next, and why?!**
 
 
 
