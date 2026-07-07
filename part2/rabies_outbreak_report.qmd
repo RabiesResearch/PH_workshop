@@ -1,0 +1,610 @@
+---
+title: "Examining a Zoonotic Disease Outbreak - Interpreting Surveillance Data"
+subtitle: "Session on Decision-Making in One Health"
+date: today
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    embed-resources: true
+    fig-width: 12
+    fig-height: 6
+    df-print: paged
+    fontsize: 15px
+    header-includes: |
+      <style>
+        body         { font-size: 15px; line-height: 1.5; }
+        h1           { font-size: 1.7em; }
+        h2           { font-size: 1.35em; }
+        h3           { font-size: 1.15em; }
+        h4           { font-size: 1.0em; }
+        #TOC         { font-size: 13px; }
+      </style>
+  pdf:
+    toc: true
+    number-sections: true
+    fig-width: 12
+    fig-height: 6
+prefer-html: true
+execute:
+  warning: false
+  message: false
+  echo: false
+---
+
+```{r setup}
+library(tidyverse)
+library(lubridate)
+library(sf)
+library(here)
+library(reactable)
+library(scales)
+
+province_names <- c("Romblon", "Oriental Mindoro", "Marinduque", "Occidental Mindoro")
+
+dat_outbreak <- read_csv(here("data", "epi", "dat_all_anon.csv")) %>%
+  mutate(date = dmy(date))
+
+monthly_breaks <- seq.Date(
+  from = floor_date(min(dat_outbreak$date - 60, na.rm = TRUE), "month"),
+  to   = ceiling_date(max(dat_outbreak$date), "month"),
+  by   = "month"
+) - 1
+
+pal_status <- c("Human Death"        = "#A3003F",
+                "Probable (Animal)"  = "#E59500",
+                "Confirmed (Animal)" = "#3C8590")
+
+pal_type <- c("Human" = "#A3003F",
+              "Animal" = "#3C8590")
+
+mdv_summary <- read.csv(here("data", "epi", "mdv_summary.csv"))
+mdv_rolling  <- read_csv(here("data", "epi", "rolling_vac_cov_yr.csv"))
+
+## Geographic data for mapping
+municipality <- st_read(here("data", "gis"), layer = "PHL_municipality", quiet = TRUE)
+village_loc  <- read.csv(here("data/gis", "PHL_village_centroids.csv"))
+
+# Attach coordinates
+village_loc_filt <- village_loc %>% # filter the village_loc data to only include the provinces of interest
+  filter(str_starts(Loc_ID, paste(paste0(province_names, "-"), collapse = "|"))) 
+```
+
+## Overview
+
+This report summarises surveillance data from Integrated Bite Case Management (IBCM) in the MIMAROPA region of the Philippines. IBCM is a One Health approach linking post-exposure vaccination of bite victims, investigation of biting animals, community sensitisation and programmatic coordination to improve prevention, detection and response.
+
+IBCM was introduced to Romblon and Oriental Mindoro in 2020 (with COVID-19 restrictions limiting full implementation), expanded to Marinduque in 2022, and to Occidental Mindoro and parts of Palawan in 2024.
+
+::: {.callout-tip}
+## Some useful background!
+Rabies is spread by the bite of an infected rabid animal and is **invariably** fatal! This is why post-exposure vaccination (PEP) is needed immediately after a rabid dog bite. If a bite victim only attends a hospital after showing signs of rabies it is too late. But only *around one in 5 rabid dog bite victims will develop rabies* if unvaccinated. So for every unlucky rabies patient, four other rabid bite victims will get lucky and survive without developing rabies.
+
+Usually only around one in 3 rabid dogs bite people; a few of these will bite a lot, but many will bite 1 or 2 people. Remember that surveillance only ever provides a partial picture, of the cases observed or confirmed through sample collection, laboratory testing and official reporting. Can you think of reasons why rabid dogs may not be counted? and what about human rabies cases?
+
+*Remember* your job is not just to interpret what the evidence from surveilance says about rabies, but what actions should be taken! 
+:::
+
+---
+
+## Describing the outbreak
+
+### The Regional Epidemic Curve 
+Looking at data from three focal provinces (Oriental Mindoro, Romblon, Marinduque from 2020 through 2025 shows a clear outbreak with monthly reported animal rabies cases (confirmed and probable) and human rabies deaths peaking in 2024, while the map shows an interesting distribution of dog rabies cases (circles) and human rabies deaths (triangles).
+
+```{r epi-curve-region, fig.width=9, fig.height=3.5}
+dat_outbreak_provinces <- dat_outbreak %>%
+  filter(province != "Occidental Mindoro") %>%
+  filter(date >= ymd("2020-01-01") & date <= ymd("2026-01-01"))
+
+monthly_breaks <- seq.Date(
+  from = floor_date(min(dat_outbreak_provinces$date, na.rm = TRUE), "month"),
+  to   = ceiling_date(max(dat_outbreak_provinces$date), "month"),
+  by   = "month"
+) - 1
+
+ggplot(dat_outbreak_provinces, aes(x = date, fill = case_status_fct)) +
+  geom_histogram(breaks = monthly_breaks, col = "white") +
+  scale_x_date(expand = c(0, 1), date_breaks = "3 months", date_labels = "%b %Y") +
+  scale_fill_manual(values = pal_status) +
+  labs(y = "Number of cases", x = "", fill = "") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 40, vjust = 0.5), legend.position = "top")
+
+```
+```{r map, fig.width=4, fig.height=3.5}
+# Now join the coordinates to the outbreak data
+dat_mapped <- dat_outbreak %>% 
+  mutate(loc_id = paste(province, municipality, barangay, sep = "-")) %>% 
+  left_join(select(village_loc_filt, Loc_ID, Latitude, Longitude), 
+            by = c("loc_id" = "Loc_ID")) 
+
+municipality_df <- municipality %>%
+  filter(NAME_1 %in% province_names) # filter the municipality data to only include the provinces of interest
+
+# Set the colour palette for the case types
+pal_type   <- c("Human" = "#A3003F",
+                "Animal" = "#3C8590")
+
+# Now create the map
+ggplot() +
+  geom_sf(data = municipality_df, alpha = 0, colour = "dimgrey", linewidth = 0.4) + 
+  geom_point( 
+    data = dat_mapped, 
+    aes(x = Longitude, y = Latitude, 
+        colour = case_type, shape = case_type, alpha = case_type), 
+    position = position_jitter(h = 0.01, w = 0.01), # add some jitter to the points to avoid overlap
+    size = 2 
+  ) +
+  scale_colour_manual(values = pal_type) + #  
+  scale_shape_manual(values  = c("Human" = 17, "Animal" = 16)) + 
+  scale_alpha_manual(values  = c("Human" = 1,  "Animal" = 0.6)) + 
+  labs(colour = "", shape = "", alpha = "") + 
+  # annotate provinces manually as the labels are not in the shapefile
+  annotate("text", x = c(122.4,122.4,121.3,120.5), 
+           y = c(12.3,13.4,13.6,12.7), 
+           label = c("Romblon","Marinduque","Oriental Mindoro","Occidental Mindoro"), 
+           size = c(3,3,3,3)) +
+  theme_minimal(base_size = 13) + 
+  theme(legend.position  = c(0.85, 0.85),
+        panel.grid.major = element_blank(),
+        axis.text        = element_blank(),
+        axis.title       = element_blank())
+
+```
+
+### The Epidemic curves by province
+The situation looks different by province. Oriental Mindoro has continual human rabies deaths and animal rabies cases, but Romblon and Marinduque show distinct sequential outbreaks. This pattern is important for understanding routes of rabies spread and the timing of introductions. 
+
+```{r epi-curve-facet, fig.width=9, fig.height=5}
+ggplot(dat_outbreak_provinces, aes(x = date, fill = case_status_fct)) +
+  geom_histogram(breaks = monthly_breaks, col = "white") +
+  scale_x_date(expand = c(0, 0), date_breaks = "4 months", date_labels = "%b %Y") +
+  scale_fill_manual(values = pal_status) +
+  facet_wrap(~province, ncol = 1) +
+  labs(y = "Number of cases", x = "", fill = "",
+       title = "Reported rabies cases by province") +
+  theme_bw() +
+  theme(axis.text.x      = element_text(angle = 40, vjust = 0.5),
+        legend.position  = "top",
+        strip.background = element_rect(fill = "#f0f0f0"),
+        strip.text       = element_text(face = "bold"))
+```
+
+```{r map-region, fig.width=9, fig.height=6}
+dat_mapped <- dat_outbreak_provinces %>%
+  mutate(loc_id = paste(province, municipality, barangay, sep = "-"),
+         year   = lubridate::year(date)) %>%
+  left_join(select(village_loc_filt, Loc_ID, Latitude, Longitude),
+            by = c("loc_id" = "Loc_ID"))
+
+municipality_df <- municipality %>% filter(NAME_1 %in% province_names)
+
+ggplot() +
+  geom_sf(data = municipality_df, alpha = 0, colour = "dimgrey", linewidth = 0.4) +
+  geom_point(data = dat_mapped,
+             aes(x = Longitude, y = Latitude,
+                 colour = case_type, shape = case_type, alpha = case_type),
+             position = position_jitter(h = 0.01, w = 0.01), size = 2) +
+  facet_wrap(~year) +
+  scale_colour_manual(values = pal_type) +
+  scale_shape_manual(values  = c("Human" = 17, "Animal" = 16)) +
+  scale_alpha_manual(values  = c("Human" = 1,  "Animal" = 0.7)) +
+  labs(colour = "", shape = "", alpha = "") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position  = "bottom",
+        panel.grid.major = element_blank(),
+        axis.text        = element_blank(),
+        axis.title       = element_blank())
+```
+
+---
+
+## What should be the focus for action in each province?
+
+### Oriental Mindoro
+This epidemic curve for Oriental Mindoro also shows the timing of mass dog vaccination campaigns (defined as >700 dogs vaccinated in a municipality in a month) as grey shaded periods.
+
+> **Key questions and immportant information to inform your discussions:**
+>
+> - What is happening in the early outbreak period? 
+> - How do animal cases compare to human deaths?
+> - Recall that roughly 1 person is bitten every 3 rabid dogs. Of people bitten, 90% get PEP. Of the 10% that don't get PEP, 20% will develop rabies and die. How does this change your interpretation of the early outbreak period?
+> - Is the situation improving or worsening over time - do you think rabies is still endemic in Oriental Mindoro by 2026?
+> - A human death recently occurred (April 2026 - look at the 2026 map!). Does this death change your interpretation? 
+>- What should be the focus of control and prevention be in Oriental Mindoro?
+
+
+```{r epi-curve-ormin, fig.width=9, fig.height=3.5}
+mdv_ormin <- mdv_summary %>%
+  filter(region == "Ormin") %>%
+  mutate(date_start = dmy(paste("01", month, year)),
+         date_end   = date_start + days(30))
+
+dat_outbreak %>%
+  filter(province == "Oriental Mindoro") %>%
+  ggplot(aes(x = date, fill = case_status_fct)) +
+  geom_rect(data = mdv_ormin,
+            aes(xmin = date_start, xmax = date_end, ymin = 0, ymax = Inf, fill = "grey70"),
+            inherit.aes = FALSE, alpha = 0.3) +
+  geom_histogram(breaks = monthly_breaks, col = "white") +
+  scale_x_date(expand = c(0, 0), date_breaks = "4 months", date_labels = "%b %Y") +
+  scale_fill_manual(values = pal_status) +
+  labs(y = "Number of cases", x = "", fill = "") +
+  theme_bw() +
+  theme(axis.text.x      = element_text(angle = 40, vjust = 0.5),
+        legend.position  = "top",
+        strip.background = element_rect(fill = "#f0f0f0"),
+        strip.text       = element_text(face = "bold"))
+```
+
+Here the human deaths and animal cases in Oriental Mindoro shown separately until mid-2026, and their spatial distribution by year with the background shading showing annual rolling vaccination coverage by municipality.
+
+```{r epi-curve-facet-ormin, fig.width=9, fig.height=5}
+dat_outbreak %>%
+  filter(province == "Oriental Mindoro") %>%
+  ggplot(aes(x = date, fill = case_status_fct)) +
+  geom_histogram(breaks = monthly_breaks, col = "white") +
+  scale_x_date(expand = c(0, 0), date_breaks = "4 months", date_labels = "%b %Y") +
+  scale_fill_manual(values = pal_status) +
+  facet_wrap(~case_type, ncol = 1) +
+  labs(y = "Number of cases", x = "", fill = "") +
+  theme_bw() +
+  theme(axis.text.x      = element_text(angle = 40, vjust = 0.5),
+        legend.position  = "top",
+        strip.background = element_rect(fill = "#f0f0f0"),
+        strip.text       = element_text(face = "bold"))
+```
+
+```{r map-ormin, fig.width=12, fig.height=8}
+dat_mapped <- dat_outbreak %>%
+  mutate(loc_id = paste(province, municipality, barangay, sep = "-"),
+         year   = lubridate::year(date)) %>%
+  filter(province == "Oriental Mindoro") %>%
+  left_join(select(village_loc, Loc_ID, Latitude, Longitude),
+            by = c("loc_id" = "Loc_ID"))
+
+municipality_df <- municipality %>%
+  filter(NAME_1 == "Oriental Mindoro") %>%
+  left_join(mdv_rolling, by = c("NAME_2" = "municipality")) %>%
+  filter(NAME_2 != "Naujan Lake")
+
+ggplot() +
+  geom_sf(data = municipality_df, aes(fill = vacc_cov_roll * 100), alpha = 80) +
+  scale_fill_gradient(name = "Vaccination \ncoverage",
+                      low = "#FFFFFB", high = "#DFA801",
+                      labels = comma, limits = c(0, 100)) +
+  geom_point(data = dat_mapped,
+             aes(x = Longitude, y = Latitude,
+                 colour = case_type, shape = case_type, alpha = case_type),
+             position = position_jitter(h = 0.01, w = 0.01), size = 2) +
+  scale_colour_manual(values = pal_type) +
+  scale_shape_manual(values  = c("Human" = 17, "Animal" = 16)) +
+  scale_alpha_manual(values  = c("Human" = 1,  "Animal" = 0.8)) +
+  facet_wrap(~year, ncol = 4) +
+  labs(colour = "", shape = "", alpha = "") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position  = "bottom",
+        panel.grid.major = element_blank(),
+        axis.text        = element_blank(),
+        axis.title       = element_blank(),
+        strip.text       = element_text(face = "bold"))
+```
+
+*Note: some vaccination has occurred in 2026, however this data has not yet been released.*
+
+> **Based on the available evidence, what would you recommend the local One Health team do next, and why?**
+
+
+---
+
+### Romblon
+
+Here is the epidemic curve shown for Romblon with grey shading indicating the timing of mass dog vaccination campaigns.
+
+> **Key questions and things to consider:**
+>
+> - Romblon province is made up of different islands. How did rabies spread across the islands over time?
+> - If you were facing the situation in Tablas island in December 2022 (look at the 2022 map), what actions would you recommend to the local authorities?
+- When did the first death occur? What can you say about the responsiveness of dog vaccination efforts? 
+> - What if you were facing the situation in Sibuyan island in December 2023, would you be concerned? what communications would you want between municipalities? How might your thinking change by August 2024? Do you have any concerns if you are from Corcuera island?
+>  What do these complete plots tell you about the current surveillance efforts in Romblon?
+
+
+```{r epi-curve-romblon, fig.width=9, fig.height=3}
+dat_romblon <- dat_outbreak %>% filter(province == "Romblon")
+
+monthly_breaks_romblon <- seq.Date(
+  from = floor_date(min(dat_romblon$date - 60, na.rm = TRUE), "month"),
+  to   = ceiling_date(max(dat_romblon$date), "month"),
+  by   = "month"
+) - 1
+
+mdv_romblon <- mdv_summary %>%
+  filter(region == "Romblon") %>%
+  mutate(date_start = dmy(paste("01", month, year)),
+         date_end   = date_start + days(30))
+
+dat_romblon %>%
+  ggplot(aes(x = date, fill = case_status_fct)) +
+  geom_rect(data = mdv_romblon,
+            aes(xmin = date_start, xmax = date_end, ymin = 0, ymax = Inf, fill = "grey70"),
+            inherit.aes = FALSE, alpha = 0.3) +
+  geom_histogram(breaks = monthly_breaks_romblon, col = "white") +
+  scale_x_date(expand = c(0, 0), date_breaks = "4 months", date_labels = "%b %Y") +
+  scale_fill_manual(values = pal_status) +
+  labs(y = "Number of cases", x = "", fill = "") +
+  theme_bw() +
+  theme(axis.text.x      = element_text(angle = 40, vjust = 0.5),
+        legend.position  = "top",
+        strip.background = element_rect(fill = "#f0f0f0"),
+        strip.text       = element_text(face = "bold"))
+```
+
+Here are the cases in Romblon broken down by island (see the map below to know which is which).
+
+```{r epi-curve-island, fig.width=9, fig.height=6}
+dat_romblon %>%
+  ggplot(aes(x = date, fill = case_status_fct)) +
+  geom_histogram(breaks = monthly_breaks_romblon, col = "white") +
+  scale_x_date(expand = c(0, 0), date_breaks = "4 months", date_labels = "%b %Y") +
+  scale_fill_manual(values = pal_status) +
+  facet_wrap(~island, ncol = 1) +
+  labs(y = "Number of cases", x = "", fill = "") +
+  theme_bw() +
+  theme(axis.text.x      = element_text(angle = 40, vjust = 0.5),
+        legend.position  = "top",
+        strip.background = element_rect(fill = "#f0f0f0"),
+        strip.text       = element_text(face = "bold"))
+```
+
+Spatial distribution of cases in Romblon by year. Background shading shows annual rolling vaccination coverage by municipality.
+
+
+```{r map-romblon, fig.width=9, fig.height=8}
+dat_mapped <- dat_outbreak %>%
+  mutate(loc_id = paste(province, municipality, barangay, sep = "-"),
+         year   = lubridate::year(date)) %>%
+  filter(province == "Romblon") %>%
+  left_join(select(village_loc, Loc_ID, Latitude, Longitude),
+            by = c("loc_id" = "Loc_ID"))
+
+municipality_df <- municipality %>%
+  filter(NAME_1 == "Romblon") %>%
+  left_join(mdv_rolling, by = c("NAME_2" = "municipality")) %>%
+  filter(year >= 2022)
+
+ggplot() +
+  geom_sf(data = municipality_df, aes(fill = vacc_cov_roll * 100), alpha = 80) +
+  scale_fill_gradient(name = "Vaccination \ncoverage",
+                      low = "#FFFFFB", high = "#DFA801",
+                      labels = comma, limits = c(0, 100)) +
+  geom_point(data = dat_mapped,
+             aes(x = Longitude, y = Latitude,
+                 colour = case_type, shape = case_type, alpha = case_type),
+             position = position_jitter(h = 0.01, w = 0.01), size = 2) +
+  scale_colour_manual(values = pal_type) +
+  scale_shape_manual(values  = c("Human" = 17, "Animal" = 16)) +
+  scale_alpha_manual(values  = c("Human" = 1,  "Animal" = 0.8)) +
+  facet_wrap(~year) +
+  labs(colour = "", shape = "", alpha = "") +
+    # annotate provinces manually as the labels are not in the shapefile
+  annotate("text", x = c(122.2), y = c(12.3), label = c("Tablas"), size = c(3)) +
+  annotate("text", x = c(122.6), y = c(12.55), label = c("Sibuyan"), size = c(3)) +
+  annotate("text", x = c(122.2), y = c(12.8), label = c("Corcuera"), size = c(3)) +
+  
+  theme_minimal(base_size = 13) +
+  theme(legend.position  = "bottom",
+        panel.grid.major = element_blank(),
+        axis.text        = element_blank(),
+        axis.title       = element_blank(),
+        strip.text       = element_text(face = "bold"))
+
+```
+
+*Note: some vaccination has occurred in 2026, however this data has not yet been released.*
+
+> **Based on the available evidence, what would you recommend the local One Health team do next, and why?**
+
+---
+
+### Marinduque
+
+Marinduque was the last province to experience an outbreak - the grey shading indicates the timing of mass dog vaccination campaigns.
+
+```{r epi-curve-marin, fig.width=9, fig.height=4}
+dat_marin <- dat_outbreak %>% filter(province == "Marinduque")
+
+monthly_breaks_marin <- seq.Date(
+  from = floor_date(min(dat_marin$date - 60, na.rm = TRUE), "month"),
+  to   = ceiling_date(max(dat_marin$date), "month"),
+  by   = "month"
+) - 1
+
+mdv_marin <- mdv_summary %>%
+  filter(region == "Marinduque") %>%
+  mutate(date_start = dmy(paste("01", month, year)),
+         date_end   = date_start + days(30))
+
+dat_marin %>%
+  ggplot(aes(x = date, fill = case_status_fct)) +
+  geom_rect(data = mdv_marin,
+            aes(xmin = date_start, xmax = date_end, ymin = 0, ymax = Inf, fill = "grey70"),
+            inherit.aes = FALSE, alpha = 0.3) +
+  geom_histogram(breaks = monthly_breaks_marin, col = "white") +
+  scale_x_date(expand = c(0, 0), date_breaks = "4 months", date_labels = "%b %Y") +
+  scale_fill_manual(values = pal_status) +
+  facet_wrap(~island, ncol = 1) +
+  labs(y = "Number of cases", x = "", fill = "") +
+  theme_bw() +
+  theme(axis.text.x      = element_text(angle = 40, vjust = 0.5),
+        legend.position  = "top",
+        strip.background = element_rect(fill = "#f0f0f0"),
+        strip.text       = element_text(face = "bold"))
+```
+
+The spatial distribution of cases in Marinduque is shown by year with background shading showing annual rolling vaccination coverage by municipality.
+
+```{r map-marin, fig.width=12, fig.height=4}
+dat_mapped <- dat_outbreak %>%
+  mutate(loc_id = paste(province, municipality, barangay, sep = "-"),
+         year   = lubridate::year(date)) %>%
+  filter(province == "Marinduque") %>%
+  left_join(select(village_loc, Loc_ID, Latitude, Longitude),
+            by = c("loc_id" = "Loc_ID"))
+
+municipality_df <- municipality %>%
+  filter(NAME_1 == "Marinduque") %>%
+  left_join(mdv_rolling, by = c("NAME_2" = "municipality")) %>%
+  filter(year >= 2023)
+
+ggplot() +
+  geom_sf(data = municipality_df, aes(fill = vacc_cov_roll * 100), alpha = 80) +
+  scale_fill_gradient(name = "Vaccination \ncoverage",
+                      low = "#FFFFFB", high = "#DFA801",
+                      labels = comma, limits = c(0, 100)) +
+  geom_point(data = dat_mapped,
+             aes(x = Longitude, y = Latitude,
+                 colour = case_type, shape = case_type, alpha = case_type),
+             position = position_jitter(h = 0.01, w = 0.01), size = 2) +
+  scale_colour_manual(values = pal_type) +
+  scale_shape_manual(values  = c("Human" = 17, "Animal" = 16)) +
+  scale_alpha_manual(values  = c("Human" = 1,  "Animal" = 0.8)) +
+  facet_wrap(~year, ncol = 4) +
+  labs(colour = "", shape = "", alpha = "") +
+  theme_minimal(base_size = 13) +
+  theme(legend.position  = "bottom",
+        panel.grid.major = element_blank(),
+        axis.text        = element_blank(),
+        axis.title       = element_blank(),
+        strip.text       = element_text(face = "bold"))
+```
+
+*Note: some vaccination has occurred in 2026, however this data has not yet been released.*
+
+> **Based on the available evidence, what would you recommend the local One Health team do next, and why?**
+
+---
+
+## Evaluating how well surveillance, control and prevention measures were working
+
+Compare the ratio of human deaths and animal cases by province. What could explain the differences?
+
+
+```{r ratio-table}
+tbl_ratio <- dat_outbreak %>%
+  group_by(province) %>%
+  summarise(Animal_cases = sum(case_type == "Animal"),
+            Human_deaths = sum(case_type == "Human"),
+            .groups = "drop") %>%
+  mutate(Deaths_per_100_animal = round(Human_deaths / Animal_cases * 100, 1)) %>%
+  rename(Province                      = province,
+         `Animal cases`                = Animal_cases,
+         `Human deaths`                = Human_deaths,
+         `Deaths per 100 animal cases` = Deaths_per_100_animal)
+
+if (knitr::is_html_output()) {
+  reactable(tbl_ratio, striped = TRUE, highlight = TRUE, pagination = FALSE)
+} else {
+  knitr::kable(tbl_ratio)
+}
+```
+
+Now look at the incidence of human deaths and animal cases by province, i.e. reframing the risk relative to the population, (i.e. per 100,000 residents or per 1000 dogs). 
+
+```{r incidence-table}
+dog_pop <- c("Oriental Mindoro"   = 200000,
+             "Occidental Mindoro" = 110000,
+             "Marinduque"         = 40000,
+             "Romblon"            = 55800)
+
+human_pop <- c("Oriental Mindoro"   = 920000,
+               "Occidental Mindoro" = 510000,
+               "Marinduque"         = 220000,
+               "Romblon"            = 284000)
+
+dat_outbreak <- dat_outbreak %>%
+  mutate(years = as.numeric(max(date, na.rm = TRUE) -
+                            min(date, na.rm = TRUE)) / 365.25)
+
+province_summary <- dat_outbreak %>%
+  mutate(year = lubridate::year(date)) %>%
+  group_by(province) %>%
+  summarise(animal_cases = sum(case_type == "Animal"),
+            human_deaths = sum(case_type == "Human"),
+            years        = first(years),
+            dogs         = dog_pop[first(province)],
+            humans       = human_pop[first(province)],
+            .groups = "drop") %>%
+  mutate(animal_incidence = round(animal_cases / (dogs * years) * 1000, 2),
+         human_incidence  = round(human_deaths / (humans * years) * 100000, 2))
+
+overall_row <- dat_outbreak %>%
+  summarise(province     = "Overall",
+            animal_cases = sum(case_type == "Animal"),
+            human_deaths = sum(case_type == "Human"),
+            years        = first(years),
+            dogs         = sum(unique(dog_pop)),
+            humans       = sum(unique(human_pop)),
+            animal_incidence = round(animal_cases / (dogs * years) * 1000, 2),
+            human_incidence  = round(human_deaths / (humans * years) * 100000, 2))
+
+tbl <- bind_rows(province_summary, overall_row)
+
+tbl_incidence <- tbl %>%
+  select(Province                                    = province,
+         `Animal cases`                              = animal_cases,
+         `Animal incidence (per 1,000 dogs/year)`    = animal_incidence,
+         `Human deaths`                              = human_deaths,
+         `Human incidence (per 100,000 people/year)` = human_incidence)
+
+if (knitr::is_html_output()) {
+  reactable(tbl_incidence, striped = TRUE, highlight = TRUE, pagination = FALSE,
+            rowStyle = function(index) {
+              if (tbl$province[index] == "Overall") list(fontWeight = "bold")
+            })
+} else {
+  knitr::kable(tbl_incidence)
+}
+```
+
+Here we project how many human rabies deaths would occur in the Philippines (~113 million population) each year assuming a similar incidence to MIMAROPA region as a whole, and how many deaths would occur if incidence was like the worst outbreak year! Do you know approximately how many deaths are reported across the country each year?
+
+```{r death-scenario}
+total_pop <- 113000000
+av_inc    <- 0.38
+worst_inc <- 1.06
+
+tbl_scenario <- tibble(
+  Scenario        = c("Regional average", "Worst case"),
+  Rate            = c(av_inc, worst_inc),
+  Expected_deaths = c(round(total_pop * (av_inc    / 100000), 0),
+                      round(total_pop * (worst_inc / 100000), 0))
+)
+
+if (knitr::is_html_output()) {
+  reactable(tbl_scenario, striped = TRUE, highlight = TRUE, pagination = FALSE,
+            columns = list(
+              Scenario        = colDef(name = "Scenario"),
+              Rate            = colDef(name = "Rate (per 100,000/year)",
+                                       format = colFormat(digits = 2)),
+              Expected_deaths = colDef(name = "Expected deaths/year (Philippines)",
+                                       format = colFormat(separators = TRUE))
+            ))
+} else {
+  knitr::kable(tbl_scenario)
+}
+```
+
+
+> **Key questions and information to inform your discussions:**
+>
+> - Sequencing of rabies cases from these provinces reveals important information for understanding rabies spread:
+> - Cases in Oriental Mindoro are closely related to one another, and distinct from rabies viruses circulating in the other provinces. The cases in Romblon province (Tablas Island) are most closely related to rabies viruses from Region 4A. They cluster into 3 distinct groups suggesting 3 seperate introductions from Region 4A. Cases on Sibuyan and Corcuera islands in Romblon province are most closely related to cases from one of the Tablas island clusters.
+Cases in Marinduque are closely related to one another and appear to have a single ancestor from Region 4A. 
+> - Given this inter-island and inter-regional rabeis spread, what recommendations do you have about coordinating control measures and communications for sensitizing communities?
+
+> **Based on the available evidence, what would you recommend the regional and national One Health team do next, and why?**
+

@@ -31,6 +31,8 @@ format:
     number-sections: true
     fig-width: 12
     fig-height: 6
+    echo: false
+prefer-html: true
 execute:
   warning: false
   message: false
@@ -687,7 +689,7 @@ How do the ratios of human deaths to animal cases vary across provinces?
 What do these suggest about the surveillance strength?
 
 ```{r ratio-table}
-dat_outbreak %>%
+tbl_ratio <- dat_outbreak %>%
   group_by(province) %>%
   summarise(
     Animal_cases  = sum(case_type == "Animal"),
@@ -698,8 +700,13 @@ dat_outbreak %>%
   rename(Province               = province,
          `Animal cases`         = Animal_cases,
          `Human deaths`         = Human_deaths,
-         `Deaths per 100 animal cases` = Deaths_per_100_animal) %>%
-  reactable(striped = TRUE, highlight = TRUE, pagination = FALSE)
+         `Deaths per 100 animal cases` = Deaths_per_100_animal)
+
+if (knitr::is_html_output()) {
+  reactable(tbl_ratio, striped = TRUE, highlight = TRUE, pagination = FALSE)
+} else {
+  knitr::kable(tbl_ratio)
+}
 ```
 
 
@@ -795,24 +802,28 @@ worst_case <- dat_outbreak %>%
 # Bind and display
 tbl <- bind_rows(province_summary, overall_row)
 
-tbl %>%
+tbl_incidence <- tbl %>%
   select(
     Province                                      = province,
     `Animal cases`                                = animal_cases,
     `Animal incidence (per 1,000 dogs/year)`      = animal_incidence,
     `Human deaths`                                = human_deaths,
     `Human incidence (per 100,000 people/year)`   = human_incidence
-  ) %>%
+  )
+
+if (knitr::is_html_output()) {
   reactable(
+    tbl_incidence,
     striped = TRUE,
     highlight = TRUE,
     pagination = FALSE,
     rowStyle = function(index) {
-      if (tbl$province[index] == "Overall") {
-        list(fontWeight = "bold")
-      }
+      if (tbl$province[index] == "Overall") list(fontWeight = "bold")
     }
   )
+} else {
+  knitr::kable(tbl_incidence)
+}
 
 
 ```
@@ -830,13 +841,16 @@ total_pop = 113000000
 av_inc = 0.38
 wost_inc = 1.06
 
-tibble(
+tbl_scenario <- tibble(
   Scenario        = c("Regional average", "Worst case"),
   Rate            = c(av_inc, wost_inc),
-  Expected_deaths = c(round(total_pop * (av_inc / 100000),0), 
+  Expected_deaths = c(round(total_pop * (av_inc / 100000),0),
                       round(total_pop * (wost_inc / 100000),0))
-) %>%
+)
+
+if (knitr::is_html_output()) {
   reactable(
+    tbl_scenario,
     striped    = TRUE,
     highlight  = TRUE,
     pagination = FALSE,
@@ -852,6 +866,9 @@ tibble(
       )
     )
   )
+} else {
+  knitr::kable(tbl_scenario)
+}
 
 ```
 
