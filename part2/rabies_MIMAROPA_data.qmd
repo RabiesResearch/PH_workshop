@@ -802,7 +802,7 @@ Try working through the rest of this optional code and see what you learn in the
 Calculate the ratios of human deaths to animal cases across the provinces?
 What do these suggest about how the quality of surveillance varies across the different provinces?
 
-::: {.callout-tip collapse="true"}
+::: {.callout-tip}
 ## Show solution
 
 ```{r ratio-table}
@@ -853,7 +853,7 @@ What are the obstacles to achieving this best case outcome? and what can be done
 
 Calculate the annual incidence of human deaths and animal cases by province.
 
-::: {.callout-tip collapse="true"}
+::: {.callout-tip}
 ## Show solution
 
 ```{r incidence-table}
