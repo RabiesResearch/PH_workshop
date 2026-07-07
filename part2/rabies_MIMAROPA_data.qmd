@@ -947,6 +947,7 @@ if (knitr::is_html_output()) {
   knitr::kable(tbl_incidence)
 }
 
+tbl_incidence
 
 ```
 ::: 
@@ -991,6 +992,8 @@ if (knitr::is_html_output()) {
 } else {
   knitr::kable(tbl_scenario)
 }
+
+tbl_scenario
 
 ```
 
